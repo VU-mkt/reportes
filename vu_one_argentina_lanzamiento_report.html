@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reporte de Campaña · VU ONE Argentina - Lanzamiento</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --charcoal: #1a1a1a;
+  --charcoal-mid: #2a2a2a;
+  --charcoal-light: #3a3a3a;
+  --coral: #F26522;
+  --coral-dark: #c94e30;
+  --coral-glow: #ff6b45;
+  --cream: #E6E5C7;
+  --cream-dark: #ccc9a8;
+  --cream-light: #f0eed8;
+  --brown: #8b6f5e;
+  --brown-light: #a08472;
+  --green-pos: #5cb87a;
+  --red-neg: #e85d5d;
+  --amber-warn: #e8a83a;
+  --blue-info: #5b9bd5;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: var(--coral) var(--charcoal); }
+body { font-family: 'IBM Plex Sans', sans-serif; background: var(--charcoal); color: var(--cream); overflow-x: hidden; line-height: 1.5; }
+
+/* ===== SCROLL PROGRESS ===== */
+.scroll-progress { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--coral), var(--amber-warn)); z-index: 1001; width: 0; transition: width 0.1s; }
+
+/* ===== NAV ===== */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(26,26,26,0.93); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(242,101,34,0.15); transition: transform 0.3s; }
+nav.hidden { transform: translateY(-100%); }
+.nav-inner { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 12px 40px; }
+.nav-brand { font-family: 'IBM Plex Mono', monospace; font-weight: 700; font-size: 14px; letter-spacing: 3px; text-transform: uppercase; color: var(--coral); }
+.nav-date { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--brown-light); letter-spacing: 1px; }
+.nav-links { display: flex; gap: 4px; flex-wrap: wrap; justify-content: flex-end; }
+.nav-links a { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--cream-dark); text-decoration: none; padding: 5px 10px; border-radius: 3px; transition: all 0.2s; white-space: nowrap; }
+.nav-links a:hover, .nav-links a.active { color: var(--coral); background: rgba(242,101,34,0.08); }
+
+/* ===== SECTIONS ===== */
+section { min-height: 100vh; padding: 110px 40px 80px; position: relative; }
+.section-inner { max-width: 1280px; margin: 0 auto; }
+
+/* ===== TYPOGRAPHY ===== */
+.tag { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--coral); border: 1px solid rgba(242,101,34,0.35); padding: 5px 14px; border-radius: 3px; display: inline-block; margin-bottom: 20px; }
+h1 { font-family: 'IBM Plex Sans', sans-serif; font-weight: 700; font-size: clamp(34px, 4.5vw, 60px); line-height: 1.08; color: var(--cream); margin-bottom: 20px; }
+h2 { font-family: 'IBM Plex Sans', sans-serif; font-weight: 700; font-size: clamp(26px, 3.5vw, 44px); line-height: 1.1; color: var(--cream); margin-bottom: 20px; }
+h3 { font-family: 'IBM Plex Sans', sans-serif; font-weight: 600; font-size: 19px; color: var(--cream); margin-bottom: 12px; }
+p.lead { font-size: 17px; line-height: 1.65; color: var(--cream-dark); max-width: 700px; }
+
+/* ===== REVEAL ===== */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.65s, transform 0.65s; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ===== HERO ===== */
+#hero { display: flex; align-items: center; justify-content: center; min-height: 100vh; text-align: center; position: relative; overflow: hidden; }
+.hero-bg { position: absolute; inset: 0; background: repeating-linear-gradient(0deg, transparent, transparent 60px, rgba(242,101,34,0.03) 60px, rgba(242,101,34,0.03) 61px), repeating-linear-gradient(90deg, transparent, transparent 60px, rgba(242,101,34,0.03) 60px, rgba(242,101,34,0.03) 61px); }
+.hero-content { position: relative; z-index: 1; }
+.hero-eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--brown-light); margin-bottom: 16px; }
+.hero-kpis { display: flex; gap: 48px; justify-content: center; flex-wrap: wrap; margin-top: 52px; }
+.hero-kpi { text-align: center; }
+.hero-kpi .number { font-family: 'IBM Plex Mono', monospace; font-size: 32px; font-weight: 700; color: var(--coral); display: block; }
+.hero-kpi .label { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--cream-dark); margin-top: 5px; display: block; }
+.hero-divider { width: 1px; height: 40px; background: rgba(242,101,34,0.25); align-self: center; }
+
+/* ===== CREAM SECTION ===== */
+.cream-section { background: var(--cream); color: var(--charcoal); }
+.cream-section .tag { color: var(--coral); border-color: rgba(242,101,34,0.4); }
+.cream-section h2, .cream-section h3 { color: var(--charcoal); }
+.cream-section p.lead { color: #555; }
+
+.exec-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; margin-top: 36px; }
+.exec-card { background: white; border-radius: 6px; padding: 22px; border-left: 3px solid var(--coral); cursor: pointer; position: relative; overflow: hidden; transition: all 0.3s; }
+.exec-card .card-tag { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--coral); margin-bottom: 7px; }
+.exec-card h3 { font-size: 15px; color: var(--charcoal); margin-bottom: 0; }
+.exec-card .card-body { font-size: 13px; color: #666; line-height: 1.55; max-height: 0; overflow: hidden; opacity: 0; transition: max-height 0.4s ease, opacity 0.3s, margin-top 0.3s; margin-top: 0; }
+.exec-card:hover .card-body, .exec-card.open .card-body { max-height: 300px; opacity: 1; margin-top: 10px; }
+.exec-card:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,0,0,0.09); }
+.verdict { display: inline-block; margin-top: 8px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; padding: 3px 10px; border-radius: 3px; }
+.verdict.ok { background: rgba(92,184,122,0.12); color: #3a9a5c; }
+.verdict.warn { background: rgba(232,168,58,0.12); color: #b8822a; }
+.verdict.high { background: rgba(242,101,34,0.12); color: var(--coral); }
+
+/* ===== METRIC CARDS ===== */
+.metrics-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 18px; margin: 28px 0; }
+.metric-card { background: var(--charcoal-mid); border-radius: 6px; padding: 22px; position: relative; overflow: hidden; cursor: default; }
+.metric-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: var(--coral); }
+.metric-card .mv { font-family: 'IBM Plex Mono', monospace; font-size: 30px; font-weight: 700; color: var(--cream); }
+.metric-card .ml { font-size: 13px; color: var(--cream-dark); margin-top: 5px; }
+.metric-card .ms { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--brown-light); margin-top: 8px; }
+.metric-card.green::before { background: var(--green-pos); }
+.metric-card.amber::before { background: var(--amber-warn); }
+.metric-card.blue::before { background: var(--blue-info); }
+
+/* ===== DATA TABLE ===== */
+.table-wrap { background: var(--charcoal-mid); border-radius: 8px; padding: 28px; margin-top: 28px; overflow-x: auto; }
+.data-table { width: 100%; border-collapse: collapse; min-width: 700px; }
+.data-table th { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--coral); text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--charcoal-light); }
+.data-table td { font-size: 13px; padding: 10px 14px; border-bottom: 1px solid rgba(230,229,199,0.06); color: var(--cream-dark); }
+.data-table tr:hover td { background: rgba(242,101,34,0.04); }
+.data-table .num { font-family: 'IBM Plex Mono', monospace; font-weight: 500; }
+.data-table .highlight-row td { background: rgba(242,101,34,0.06); }
+.badge { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 10px; padding: 2px 8px; border-radius: 3px; }
+.badge.top { background: rgba(92,184,122,0.15); color: var(--green-pos); }
+.badge.mid { background: rgba(232,168,58,0.12); color: var(--amber-warn); }
+.badge.low { background: rgba(229,93,93,0.12); color: var(--red-neg); }
+
+/* ===== FUNNEL ===== */
+.funnel-wrap { margin-top: 32px; }
+.funnel-step { display: grid; grid-template-columns: 140px 1fr 70px; align-items: center; gap: 14px; margin-bottom: 10px; }
+.funnel-label { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--cream-dark); text-align: right; }
+.funnel-track { height: 32px; background: var(--charcoal-light); border-radius: 4px; overflow: hidden; position: relative; }
+.funnel-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--coral), var(--coral-glow)); width: 0; transition: width 1.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); display: flex; align-items: center; justify-content: flex-end; padding-right: 10px; }
+.funnel-val { font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 600; color: var(--cream); }
+
+/* ===== SEGMENT CARDS ===== */
+.seg-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 28px; }
+.seg-card { background: var(--charcoal-mid); border-radius: 8px; padding: 20px; border-top: 3px solid var(--coral); transition: transform 0.2s, border-color 0.2s; cursor: default; }
+.seg-card:hover { transform: translateY(-2px); }
+.seg-name { font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; color: var(--coral); margin-bottom: 10px; line-height: 1.4; }
+.seg-size { font-family: 'IBM Plex Mono', monospace; font-size: 28px; font-weight: 700; color: var(--cream); }
+.seg-sub { font-size: 11px; color: var(--brown-light); margin-top: 4px; }
+.seg-bar { height: 4px; background: var(--charcoal-light); border-radius: 2px; margin-top: 12px; overflow: hidden; }
+.seg-bar-fill { height: 100%; background: var(--coral); border-radius: 2px; transition: width 1.2s ease; }
+
+/* ===== INSIGHT CARDS ===== */
+.insight-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 28px; }
+.insight-card { background: var(--charcoal-mid); border-radius: 8px; padding: 24px; border-left: 3px solid var(--coral); }
+.insight-card.green { border-left-color: var(--green-pos); }
+.insight-card.amber { border-left-color: var(--amber-warn); }
+.insight-card.red { border-left-color: var(--red-neg); }
+.ic-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--coral); margin-bottom: 8px; }
+.insight-card.green .ic-label { color: var(--green-pos); }
+.insight-card.amber .ic-label { color: var(--amber-warn); }
+.insight-card.red .ic-label { color: var(--red-neg); }
+.ic-text { font-size: 14px; color: var(--cream-dark); line-height: 1.6; }
+
+/* ===== DONUT CHARTS (CSS ONLY) ===== */
+.donut-row { display: flex; gap: 40px; justify-content: center; flex-wrap: wrap; margin-top: 36px; }
+.donut-item { text-align: center; }
+.donut { width: 120px; height: 120px; border-radius: 50%; position: relative; display: flex; align-items: center; justify-content: center; }
+.donut-inner { position: absolute; width: 80px; height: 80px; background: var(--charcoal); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-direction: column; }
+.donut-val { font-family: 'IBM Plex Mono', monospace; font-size: 18px; font-weight: 700; color: var(--cream); }
+.donut-sub { font-size: 9px; color: var(--brown-light); text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+.donut-label { font-size: 12px; color: var(--cream-dark); margin-top: 10px; }
+
+/* ===== CLOSING ===== */
+#closing { display: flex; align-items: center; justify-content: center; text-align: center; background: var(--coral); min-height: 50vh; }
+#closing h2 { color: white; font-size: clamp(28px, 3.5vw, 48px); }
+#closing .tag { color: white; border-color: rgba(255,255,255,0.4); }
+#closing p { color: rgba(255,255,255,0.85); font-size: 15px; margin-top: 12px; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  section { padding: 90px 20px 60px; }
+  .insight-grid { grid-template-columns: 1fr; }
+  .seg-grid { grid-template-columns: 1fr 1fr; }
+  .nav-inner { padding: 10px 20px; }
+  .nav-links a { font-size: 9px; padding: 4px 7px; }
+  .funnel-step { grid-template-columns: 100px 1fr 60px; }
+}
+@media (max-width: 600px) {
+  .seg-grid { grid-template-columns: 1fr; }
+  .hero-kpis { gap: 24px; }
+  .metrics-row { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<nav id="mainNav">
+  <div class="nav-inner">
+    <div class="nav-brand">VU</div>
+    <div class="nav-date">19/03 — 13/04 · 2026</div>
+    <div class="nav-links">
+      <a href="#hero">Inicio</a>
+      <a href="#exec">Resumen</a>
+      <a href="#email">Email</a>
+      <a href="#forms">Formularios</a>
+      <a href="#landing">Landing</a>
+      <a href="#segments">Segmentos</a>
+      <a href="#conclusions">Conclusiones</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ==================== HERO ==================== -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Reporte de Campaña</div>
+    <div class="tag">19 Mar — 13 Abr · 2026</div>
+    <h1>VU ONE Argentina<br><span style="color:var(--coral)">Lanzamiento</span></h1>
+    <p class="lead" style="margin: 0 auto; text-align:center;">Reporte consolidado de la campaña de lanzamiento VU ONE Argentina.<br>Email marketing, formularios y segmentos de contactos.</p>
+    <div class="hero-kpis">
+      <div class="hero-kpi">
+        <span class="number">3.397</span>
+        <span class="label">Contactos Influenciados</span>
+      </div>
+      <div class="hero-divider"></div>
+      <div class="hero-kpi">
+        <span class="number">4.264</span>
+        <span class="label">Emails Enviados a Clientes</span>
+      </div>
+      <div class="hero-divider"></div>
+      <div class="hero-kpi">
+        <span class="number">142</span>
+        <span class="label">Registros al Evento</span>
+      </div>
+      <div class="hero-divider"></div>
+      <div class="hero-kpi">
+        <span class="number">13</span>
+        <span class="label">Correos (Lanzamiento + Regiones)</span>
+      </div>
+      <div class="hero-divider"></div>
+      <div class="hero-kpi">
+        <span class="number">6</span>
+        <span class="label">Segmentos Activos</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== EXECUTIVE SUMMARY ==================== -->
+<section id="exec" class="cream-section">
+  <div class="section-inner">
+    <div class="tag reveal">Resumen Ejecutivo</div>
+    <h2 class="reveal">Panorama de la campaña.</h2>
+    <p class="lead reveal" style="margin-bottom: 8px; color: #666;">Hover en cada tarjeta para ver detalle.</p>
+    <div class="exec-grid">
+
+      <div class="exec-card reveal">
+        <div class="card-tag">Email Marketing</div>
+        <h3>4.264 enviados a clientes · 11,18% apertura</h3>
+        <span class="verdict ok">Operativo</span>
+        <div class="card-body">13 correos enviados a clientes existentes durante la campaña. La secuencia incluyo: lanzamiento (Argentina), re-engagement, recordatorio a inscriptos y correos de Transmision en Vivo para clientes del exterior que no podian asistir presencialmente. Post-evento: seguimiento a asistentes y no asistentes.</div>
+      </div>
+
+      <div class="exec-card reveal">
+        <div class="card-tag">Formularios</div>
+        <h3>142 registros · 90 asistentes · 34 empresas</h3>
+        <span class="verdict ok">Alto rendimiento</span>
+        <div class="card-body">142 registros al evento (via formularios y otros canales). 90 clientes asistieron presencialmente — 63% de tasa de asistencia. 34 empresas dijeron presente. El formulario clon fue incorporado a los correos de marketing; el original fue distribuido por el equipo de ventas directamente.</div>
+      </div>
+
+      <div class="exec-card reveal">
+        <div class="card-tag">Segmentos</div>
+        <h3>3.398 contactos de clientes en cartera</h3>
+        <span class="verdict ok">Segmentado</span>
+        <div class="card-body">Los segmentos por pais (Ecuador, Centro America, Colombia, Uruguay/Paraguay, Argentina y Neteados Final) se utilizaron exclusivamente para los correos de Transmision en Vivo, para que clientes del exterior pudieran seguir el lanzamiento. El resto de la campaña uso listas de clientes de Buenos Aires. Toda la base son clientes existentes de VU, no prospects nuevos.</div>
+      </div>
+
+      <div class="exec-card reveal">
+        <div class="card-tag">Post-Evento</div>
+        <h3>68 contactados · 43,24% apertura no asistentes</h3>
+        <span class="verdict high">Seguimiento activo</span>
+        <div class="card-body">Correos post-lanzamiento enviados el 12/04: 37 a no asistentes (43,24% apertura, 18,92% clics — el mejor CTR de la campaña) y 31 a asistentes (23,33% apertura). El equipo de ventas debera hacer un seguimiento individual para evaluar el impacto del evento en cada cuenta.</div>
+      </div>
+
+      <div class="exec-card reveal">
+        <div class="card-tag">Landing Page</div>
+        <h3>105 vistas · 58,1% conversion</h3>
+        <span class="verdict ok">Eficiente</span>
+        <div class="card-body">La landing "VU ONE - Buenos Aires" sirvio como punto de distribucion ordenada del formulario con URL acortada. 61 registros de clientes con 58,1% de conversion. A futuro, el objetivo es desarrollar una landing de eventos de VU con CTAs, informacion del evento y conexion al sitio web oficial.</div>
+      </div>
+
+      <div class="exec-card reveal">
+        <div class="card-tag">Trafico Web</div>
+        <h3>119 sesiones · 28 nuevos contactos</h3>
+        <span class="verdict warn">Moderado</span>
+        <div class="card-body">119 sesiones atribuidas a la campaña con 28 contactos registrados por primer contacto. Volumen moderado de trafico directo; el mayor peso de la campaña se concentro en email marketing y formularios.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==================== EMAIL MARKETING ==================== -->
+<section id="email">
+  <div class="section-inner">
+    <div class="tag reveal">Canal 1</div>
+    <h2 class="reveal">Email Marketing</h2>
+    <p class="lead reveal">13 correos enviados a clientes existentes entre el 19 de marzo y el 12 de abril. La campaña incluyo lanzamiento, re-engagement, recordatorio para inscriptos, transmision en vivo para clientes del exterior, y seguimiento post-evento.</p>
+
+    <div class="metrics-row reveal">
+      <div class="metric-card">
+        <div class="mv">4.264</div>
+        <div class="ml">Emails enviados</div>
+        <div class="ms">13 correos en campaña</div>
+      </div>
+      <div class="metric-card">
+        <div class="mv">454</div>
+        <div class="ml">Aperturas</div>
+        <div class="ms">Tasa: 11,18%</div>
+      </div>
+      <div class="metric-card">
+        <div class="mv">55</div>
+        <div class="ml">Clics</div>
+        <div class="ms">Tasa: 1,35%</div>
+      </div>
+      <div class="metric-card green">
+        <div class="mv">142</div>
+        <div class="ml">Registros al evento</div>
+        <div class="ms">90 asistentes · 34 empresas</div>
+      </div>
+    </div>
+
+    <!-- Email Funnel -->
+    <h3 class="reveal" style="margin-top:36px;">Funnel de Email</h3>
+    <div class="funnel-wrap reveal">
+      <div class="funnel-step">
+        <div class="funnel-label">Enviados</div>
+        <div class="funnel-track"><div class="funnel-fill" data-width="100%"></div></div>
+        <div class="funnel-val">4.264</div>
+      </div>
+      <div class="funnel-step">
+        <div class="funnel-label">Abiertos</div>
+        <div class="funnel-track"><div class="funnel-fill" data-width="10.65%"></div></div>
+        <div class="funnel-val">454</div>
+      </div>
+      <div class="funnel-step">
+        <div class="funnel-label">Clicks</div>
+        <div class="funnel-track"><div class="funnel-fill" data-width="1.29%"></div></div>
+        <div class="funnel-val">55</div>
+      </div>
+    </div>
+
+    <!-- Donut Charts -->
+    <div class="donut-row reveal">
+      <div class="donut-item">
+        <div class="donut" style="background: conic-gradient(var(--coral) 0deg, var(--coral) 40.2deg, var(--charcoal-light) 40.2deg);">
+          <div class="donut-inner">
+            <div class="donut-val">11,2%</div>
+            <div class="donut-sub">Apertura</div>
+          </div>
+        </div>
+        <div class="donut-label">Tasa de apertura global</div>
+      </div>
+      <div class="donut-item">
+        <div class="donut" style="background: conic-gradient(var(--amber-warn) 0deg, var(--amber-warn) 4.9deg, var(--charcoal-light) 4.9deg);">
+          <div class="donut-inner">
+            <div class="donut-val">1,35%</div>
+            <div class="donut-sub">Clics</div>
+          </div>
+        </div>
+        <div class="donut-label">Tasa de clics global</div>
+      </div>
+      <div class="donut-item">
+        <div class="donut" style="background: conic-gradient(var(--green-pos) 0deg, var(--green-pos) 43.6deg, var(--charcoal-light) 43.6deg);">
+          <div class="donut-inner">
+            <div class="donut-val">12,1%</div>
+            <div class="donut-sub">Click/Open</div>
+          </div>
+        </div>
+        <div class="donut-label">Click-to-open rate</div>
+      </div>
+    </div>
+
+    <!-- Email Detail Table -->
+    <div class="table-wrap reveal">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Correo</th>
+            <th>Enviados</th>
+            <th>Abierto</th>
+            <th>Clics</th>
+            <th>Tasa Apertura</th>
+            <th>Tasa Clics</th>
+            <th>Fecha</th>
+            <th>Tipo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="highlight-row">
+            <td>Lanzamiento VU ONE Argentina 1er envio</td>
+            <td class="num">414</td>
+            <td class="num">61</td>
+            <td class="num">16</td>
+            <td class="num">15,17%</td>
+            <td class="num">3,98%</td>
+            <td>19/03</td>
+            <td><span class="badge top">Lanzamiento</span></td>
+          </tr>
+          <tr>
+            <td>RE-ENGAGEMENT 2do envio — No abrio/no clic</td>
+            <td class="num">411</td>
+            <td class="num">41</td>
+            <td class="num">6</td>
+            <td class="num">11,05%</td>
+            <td class="num">1,62%</td>
+            <td>25/03</td>
+            <td><span class="badge mid">Re-engagement</span></td>
+          </tr>
+          <tr>
+            <td>RE-ENGAGEMENT 2do envio — Fe de erratas</td>
+            <td class="num">148</td>
+            <td class="num">30</td>
+            <td class="num">3</td>
+            <td class="num">22,22%</td>
+            <td class="num">2,22%</td>
+            <td>25/03</td>
+            <td><span class="badge mid">Re-engagement</span></td>
+          </tr>
+          <tr>
+            <td>RE-ENGAGEMENT 3er envio</td>
+            <td class="num">418</td>
+            <td class="num">34</td>
+            <td class="num">1</td>
+            <td class="num">8,99%</td>
+            <td class="num">0,27%</td>
+            <td>30/03</td>
+            <td><span class="badge mid">Re-engagement</span></td>
+          </tr>
+          <tr class="highlight-row">
+            <td>Recordatorio para Inscriptos Confirmados</td>
+            <td class="num">67</td>
+            <td class="num">30</td>
+            <td class="num">5</td>
+            <td class="num">44,78%</td>
+            <td class="num">7,46%</td>
+            <td>06/04</td>
+            <td><span class="badge top">Recordatorio</span></td>
+          </tr>
+          <tr>
+            <td>Transmision en Vivo — Centro America</td>
+            <td class="num">599</td>
+            <td class="num">48</td>
+            <td class="num">6</td>
+            <td class="num">8,18%</td>
+            <td class="num">1,02%</td>
+            <td>06/04</td>
+            <td><span class="badge" style="background:rgba(91,155,213,0.15);color:#5b9bd5;">Tx. en Vivo</span></td>
+          </tr>
+          <tr>
+            <td>Transmision en Vivo — Uruguay y Paraguay</td>
+            <td class="num">479</td>
+            <td class="num">40</td>
+            <td class="num">4</td>
+            <td class="num">8,77%</td>
+            <td class="num">0,88%</td>
+            <td>06/04</td>
+            <td><span class="badge" style="background:rgba(91,155,213,0.15);color:#5b9bd5;">Tx. en Vivo</span></td>
+          </tr>
+          <tr>
+            <td>Transmision en Vivo — Colombia</td>
+            <td class="num">506</td>
+            <td class="num">64</td>
+            <td class="num">0*</td>
+            <td class="num">12,90%</td>
+            <td class="num">0%*</td>
+            <td>06/04</td>
+            <td><span class="badge" style="background:rgba(91,155,213,0.15);color:#5b9bd5;">Tx. en Vivo</span></td>
+          </tr>
+          <tr>
+            <td>Ultimo llamado — Neteados</td>
+            <td class="num">408</td>
+            <td class="num">34</td>
+            <td class="num">6</td>
+            <td class="num">9,21%</td>
+            <td class="num">1,63%</td>
+            <td>06/04</td>
+            <td><span class="badge mid">Recordatorio</span></td>
+          </tr>
+          <tr>
+            <td>Transmision en Vivo — Ecuador</td>
+            <td class="num">746</td>
+            <td class="num">45</td>
+            <td class="num">0*</td>
+            <td class="num">6,13%</td>
+            <td class="num">0%*</td>
+            <td>07/04</td>
+            <td><span class="badge" style="background:rgba(91,155,213,0.15);color:#5b9bd5;">Tx. en Vivo</span></td>
+          </tr>
+          <tr>
+            <td>Transmision en Vivo — Peru</td>
+            <td class="num">—</td>
+            <td class="num">—</td>
+            <td class="num">—</td>
+            <td class="num">—</td>
+            <td class="num">—</td>
+            <td>—</td>
+            <td><span class="badge" style="background:rgba(91,155,213,0.15);color:#5b9bd5;">Tx. en Vivo</span></td>
+          </tr>
+          <tr class="highlight-row">
+            <td>Post-lanzamiento (NO ASISTIERON)</td>
+            <td class="num">37</td>
+            <td class="num">16</td>
+            <td class="num">7</td>
+            <td class="num">43,24%</td>
+            <td class="num">18,92%</td>
+            <td>12/04</td>
+            <td><span class="badge top">Post-evento</span></td>
+          </tr>
+          <tr>
+            <td>Post-lanzamiento (ASISTIERON)</td>
+            <td class="num">31</td>
+            <td class="num">7</td>
+            <td class="num">1</td>
+            <td class="num">23,33%</td>
+            <td class="num">3,33%</td>
+            <td>12/04</td>
+            <td><span class="badge top">Post-evento</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--brown-light);margin-top:14px;">* Los correos de Transmision en Vivo pueden incluir CTAs no rastreables digitalmente (e.g. QR de WhatsApp editados por el equipo de ventas local). El impacto real debe relevarse con cada representante de ventas en la region.</p>
+    </div>
+
+    <!-- Email Insights -->
+    <div class="insight-grid reveal" style="margin-top:32px;">
+      <div class="insight-card green">
+        <div class="ic-label">Mejor CTR</div>
+        <div class="ic-text">El correo <strong>Post-lanzamiento (No Asistieron)</strong> logro el CTR mas alto de la campaña: <strong>18,92%</strong>. Los no asistentes mostraron mayor interes en consumir el contenido post-evento.</div>
+      </div>
+      <div class="insight-card green">
+        <div class="ic-label">Mejor Apertura</div>
+        <div class="ic-text">El <strong>Recordatorio para Inscriptos</strong> alcanzo <strong>44,78%</strong> de apertura. Los segmentos mas comprometidos (ya inscriptos) responden significativamente mejor.</div>
+      </div>
+      <div class="insight-card">
+        <div class="ic-label">Transmision en Vivo: seguimiento con ventas</div>
+        <div class="ic-text">Los correos de Transmision en Vivo llegaron a clientes del exterior para que pudieran seguir el evento remotamente. Algunos correos (Colombia) usaron QR de WhatsApp no rastreables digitalmente. El impacto real de estos envios debe consultarse con el equipo de ventas de cada region.</div>
+      </div>
+      <div class="insight-card red">
+        <div class="ic-label">Re-engagement decreciente</div>
+        <div class="ic-text">La secuencia de re-engagement mostro fatiga: del 15,17% (1er envio) bajo a 11,05% (2do) y 8,99% (3er envio). Cada iteracion pierde ~3pp de apertura.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FORMULARIOS ==================== -->
+<section id="forms" class="cream-section">
+  <div class="section-inner">
+    <div class="tag reveal">Canal 2</div>
+    <h2 class="reveal">Formularios</h2>
+    <p class="lead reveal" style="color:#555;">2 formularios activos para el registro de clientes al evento de lanzamiento.</p>
+
+    <div class="metrics-row reveal">
+      <div class="metric-card" style="background:white;"><div class="mv" style="color:var(--charcoal);">240</div><div class="ml" style="color:#666;">Visualizaciones</div><div class="ms" style="color:var(--brown);">Trafico hacia los formularios</div></div>
+      <div class="metric-card" style="background:white;"><div class="mv" style="color:var(--charcoal);">142</div><div class="ml" style="color:#666;">Registros al evento</div><div class="ms" style="color:var(--brown);">Via formularios y otros canales</div></div>
+      <div class="metric-card green" style="background:white;"><div class="mv" style="color:var(--charcoal);">45,42%</div><div class="ml" style="color:#666;">Tasa de conversion</div><div class="ms" style="color:var(--green-pos);">Vista → Registro</div></div>
+      <div class="metric-card blue" style="background:white;"><div class="mv" style="color:var(--charcoal);">42</div><div class="ml" style="color:#666;">Incorporados a HubSpot</div><div class="ms" style="color:var(--brown);">Nuevos en base de datos</div></div>
+    </div>
+
+    <!-- Forms Detail Table -->
+    <div class="table-wrap reveal" style="background:white;">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th style="color:var(--coral);">Formulario</th>
+            <th style="color:var(--coral);">Vistas</th>
+            <th style="color:var(--coral);">Envios</th>
+            <th style="color:var(--coral);">Conv. Rate</th>
+            <th style="color:var(--coral);">Nuevos en HubSpot</th>
+            <th style="color:var(--coral);">Clickthrough</th>
+            <th style="color:var(--coral);">Form Conv.</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="color:var(--charcoal);font-weight:500;">Lanzamiento de VU ONE Buenos Aires</td>
+            <td class="num" style="color:var(--charcoal);">50</td>
+            <td class="num" style="color:var(--charcoal);">20</td>
+            <td class="num" style="color:var(--charcoal);">40%</td>
+            <td class="num" style="color:var(--charcoal);">6</td>
+            <td class="num" style="color:var(--charcoal);">98%</td>
+            <td class="num" style="color:var(--charcoal);">40,82%</td>
+          </tr>
+          <tr style="background:rgba(242,101,34,0.05);">
+            <td style="color:var(--charcoal);font-weight:500;">Lanzamiento VU ONE Buenos Aires otros (clon)</td>
+            <td class="num" style="color:var(--charcoal);">190</td>
+            <td class="num" style="color:var(--charcoal);">89</td>
+            <td class="num" style="color:var(--charcoal);">46,84%</td>
+            <td class="num" style="color:var(--charcoal);">36</td>
+            <td class="num" style="color:var(--charcoal);">99,47%</td>
+            <td class="num" style="color:var(--charcoal);">47,09%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Form Funnel -->
+    <h3 class="reveal" style="margin-top:36px; color:var(--charcoal);">Funnel de Formularios</h3>
+    <div class="funnel-wrap reveal">
+      <div class="funnel-step">
+        <div class="funnel-label" style="color:#666;">Visualizaciones</div>
+        <div class="funnel-track" style="background:rgba(0,0,0,0.08);"><div class="funnel-fill" data-width="100%" style="background:linear-gradient(90deg, var(--coral), var(--coral-glow));"></div></div>
+        <div class="funnel-val" style="color:var(--charcoal);">240</div>
+      </div>
+      <div class="funnel-step">
+        <div class="funnel-label" style="color:#666;">Envios</div>
+        <div class="funnel-track" style="background:rgba(0,0,0,0.08);"><div class="funnel-fill" data-width="45.4%" style="background:linear-gradient(90deg, var(--coral), var(--coral-glow));"></div></div>
+        <div class="funnel-val" style="color:var(--charcoal);">142</div>
+      </div>
+      <div class="funnel-step">
+        <div class="funnel-label" style="color:#666;">Asistentes</div>
+        <div class="funnel-track" style="background:rgba(0,0,0,0.08);"><div class="funnel-fill" data-width="63%" style="background:linear-gradient(90deg, var(--green-pos), #6ecf8e);"></div></div>
+        <div class="funnel-val" style="color:var(--charcoal);">90</div>
+      </div>
+      <div class="funnel-step">
+        <div class="funnel-label" style="color:#666;">Empresas presentes</div>
+        <div class="funnel-track" style="background:rgba(0,0,0,0.08);"><div class="funnel-fill" data-width="23.9%" style="background:linear-gradient(90deg, var(--blue-info), #7ab5e5);"></div></div>
+        <div class="funnel-val" style="color:var(--charcoal);">34</div>
+      </div>
+    </div>
+
+    <div class="insight-grid reveal" style="margin-top:32px;">
+      <div class="insight-card green" style="background:white;border-left-color:var(--green-pos);">
+        <div class="ic-label" style="color:var(--green-pos);">Conversion destacada</div>
+        <div class="ic-text" style="color:#555;">De los 142 registros totales al evento, 90 clientes asistieron presencialmente — una <strong>tasa de asistencia del 63%</strong>. 34 empresas dijeron presente, lo que refleja una convocatoria efectiva dentro de la cartera de clientes de VU.</div>
+      </div>
+      <div class="insight-card amber" style="background:white;border-left-color:var(--amber-warn);">
+        <div class="ic-label" style="color:var(--amber-warn);">Contexto de distribucion</div>
+        <div class="ic-text" style="color:#555;">El formulario original fue distribuido principalmente por el equipo de ventas de forma directa a clientes. El formulario clon fue el que se incorporo desde el principio en los correos de marketing masivos, explicando su mayor volumen. Ambos canales de distribucion son complementarios.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== LANDING PAGE ==================== -->
+<section id="landing">
+  <div class="section-inner">
+    <div class="tag reveal">Landing Page</div>
+    <h2 class="reveal">VU ONE — Buenos Aires</h2>
+    <p class="lead reveal">Landing page unica para el evento de lanzamiento en Argentina.</p>
+
+    <div class="metrics-row reveal">
+      <div class="metric-card">
+        <div class="mv">105</div>
+        <div class="ml">Vistas de pagina</div>
+      </div>
+      <div class="metric-card green">
+        <div class="mv">61</div>
+        <div class="ml">Total de envios</div>
+        <div class="ms">58,1% conversion vista→envio</div>
+      </div>
+      <div class="metric-card">
+        <div class="mv">20</div>
+        <div class="ml">Nuevos contactos</div>
+        <div class="ms">19% de vistas = nuevo contacto</div>
+      </div>
+      <div class="metric-card">
+        <div class="mv">42</div>
+        <div class="ml">Contactos en BD via forms</div>
+        <div class="ms">Incorporados a HubSpot</div>
+      </div>
+    </div>
+
+    <!-- Landing Funnel -->
+    <h3 class="reveal" style="margin-top:36px;">Funnel de Landing Page</h3>
+    <div class="funnel-wrap reveal">
+      <div class="funnel-step">
+        <div class="funnel-label">Vistas</div>
+        <div class="funnel-track"><div class="funnel-fill" data-width="100%"></div></div>
+        <div class="funnel-val">105</div>
+      </div>
+      <div class="funnel-step">
+        <div class="funnel-label">Submissions</div>
+        <div class="funnel-track"><div class="funnel-fill" data-width="58.1%"></div></div>
+        <div class="funnel-val">61</div>
+      </div>
+      <div class="funnel-step">
+        <div class="funnel-label">Incorporados HubSpot</div>
+        <div class="funnel-track"><div class="funnel-fill" data-width="19%"></div></div>
+        <div class="funnel-val">20</div>
+      </div>
+    </div>
+
+    <div class="insight-grid reveal" style="margin-top:32px;">
+      <div class="insight-card green">
+        <div class="ic-label">Alta conversion</div>
+        <div class="ic-text">La tasa de <strong>58,1%</strong> de vista a envio es excelente para una landing de evento B2B. Mas de la mitad de los visitantes completaron el formulario, lo que indica un copy y diseno efectivos.</div>
+      </div>
+      <div class="insight-card amber">
+        <div class="ic-label">Proximo paso: revision con ventas</div>
+        <div class="ic-text">Al ser un evento para clientes existentes, el impacto real en terminos de nuevos proyectos o conversaciones activas debe relevarse con el equipo de ventas en los proximos dias. La landing cumplio su funcion de captacion de registros para el evento.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SEGMENTOS ==================== -->
+<section id="segments" class="cream-section">
+  <div class="section-inner">
+    <div class="tag reveal">Canal 3</div>
+    <h2 class="reveal">Segmentos de Contactos</h2>
+    <p class="lead reveal" style="color:#555;">6 listas de clientes curadas alimentaron los envios de Transmision en Vivo para que clientes del exterior pudieran seguir el lanzamiento. El resto de la campaña utilizo listas de clientes de Buenos Aires.</p>
+
+    <div class="metrics-row reveal">
+      <div class="metric-card" style="background:white;"><div class="mv" style="color:var(--charcoal);">3.398</div><div class="ml" style="color:#666;">Clientes en segmentos Tx. en Vivo</div><div class="ms" style="color:var(--brown);">Suma de 6 segmentos por pais</div></div>
+      <div class="metric-card" style="background:white;"><div class="mv" style="color:var(--charcoal);">781</div><div class="ml" style="color:#666;">Segmento mas grande</div><div class="ms" style="color:var(--brown);">Ecuador</div></div>
+      <div class="metric-card" style="background:white;"><div class="mv" style="color:var(--charcoal);">450</div><div class="ml" style="color:#666;">Segmento mas pequeño</div><div class="ms" style="color:var(--brown);">Argentina / Neteados</div></div>
+      <div class="metric-card" style="background:white;"><div class="mv" style="color:var(--charcoal);">566</div><div class="ml" style="color:#666;">Promedio por segmento</div></div>
+    </div>
+
+    <div class="seg-grid reveal">
+      <div class="seg-card" style="background:white;border-top-color:var(--coral);">
+        <div class="seg-name" style="color:var(--coral);">Ecuador</div>
+        <div class="seg-size" style="color:var(--charcoal);">781</div>
+        <div class="seg-sub" style="color:#888;">VU ONE ARG — Curados · Mas grande</div>
+        <div class="seg-bar" style="background:rgba(0,0,0,0.08);"><div class="seg-bar-fill" data-width="100%"></div></div>
+      </div>
+      <div class="seg-card" style="background:white;border-top-color:var(--amber-warn);">
+        <div class="seg-name" style="color:var(--amber-warn);">Centro America</div>
+        <div class="seg-size" style="color:var(--charcoal);">647</div>
+        <div class="seg-sub" style="color:#888;">VU ONE ARG — Curados</div>
+        <div class="seg-bar" style="background:rgba(0,0,0,0.08);"><div class="seg-bar-fill" data-width="82.8%" style="background:var(--amber-warn);"></div></div>
+      </div>
+      <div class="seg-card" style="background:white;border-top-color:var(--blue-info);">
+        <div class="seg-name" style="color:var(--blue-info);">Colombia</div>
+        <div class="seg-size" style="color:var(--charcoal);">547</div>
+        <div class="seg-sub" style="color:#888;">VU ONE ARG — Curados</div>
+        <div class="seg-bar" style="background:rgba(0,0,0,0.08);"><div class="seg-bar-fill" data-width="70%" style="background:var(--blue-info);"></div></div>
+      </div>
+      <div class="seg-card" style="background:white;border-top-color:var(--green-pos);">
+        <div class="seg-name" style="color:var(--green-pos);">Uruguay y Paraguay</div>
+        <div class="seg-size" style="color:var(--charcoal);">523</div>
+        <div class="seg-sub" style="color:#888;">VU ONE ARG — Curados</div>
+        <div class="seg-bar" style="background:rgba(0,0,0,0.08);"><div class="seg-bar-fill" data-width="67%" style="background:var(--green-pos);"></div></div>
+      </div>
+      <div class="seg-card" style="background:white;border-top-color:var(--coral);">
+        <div class="seg-name" style="color:var(--coral);">Argentina</div>
+        <div class="seg-size" style="color:var(--charcoal);">450</div>
+        <div class="seg-sub" style="color:#888;">VU ONE ARG — Curados</div>
+        <div class="seg-bar" style="background:rgba(0,0,0,0.08);"><div class="seg-bar-fill" data-width="57.6%"></div></div>
+      </div>
+      <div class="seg-card" style="background:white;border-top-color:var(--brown);">
+        <div class="seg-name" style="color:var(--brown);">Neteados Final</div>
+        <div class="seg-size" style="color:var(--charcoal);">450</div>
+        <div class="seg-sub" style="color:#888;">VU ONE ARG — Curados</div>
+        <div class="seg-bar" style="background:rgba(0,0,0,0.08);"><div class="seg-bar-fill" data-width="57.6%" style="background:var(--brown);"></div></div>
+      </div>
+    </div>
+
+    <!-- Lifecycle -->
+    <h3 class="reveal" style="margin-top:40px; color:var(--charcoal);">Etapa del Ciclo de Vida</h3>
+    <p class="lead reveal" style="color:#555; margin-bottom:20px;">Distribucion de contactos influenciados por etapa.</p>
+    <div class="metrics-row reveal">
+      <div class="metric-card" style="background:white;">
+        <div class="mv" style="color:var(--charcoal);">1.961</div>
+        <div class="ml" style="color:#666;">Sin etapa asignada</div>
+        <div class="ms" style="color:var(--brown);">Clientes sin clasificar en HubSpot</div>
+      </div>
+      <div class="metric-card green" style="background:white;">
+        <div class="mv" style="color:var(--charcoal);">1.360</div>
+        <div class="ml" style="color:#666;">Leads</div>
+        <div class="ms" style="color:var(--green-pos);">40,8% del total</div>
+      </div>
+      <div class="metric-card" style="background:white;">
+        <div class="mv" style="color:var(--charcoal);">3</div>
+        <div class="ml" style="color:#666;">Empleados</div>
+        <div class="ms" style="color:var(--brown);">0,09%</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== CONCLUSIONES ==================== -->
+<section id="conclusions">
+  <div class="section-inner">
+    <div class="tag reveal">Analisis Final</div>
+    <h2 class="reveal">Conclusiones y<br>Recomendaciones</h2>
+
+    <div class="insight-grid reveal" style="margin-top:32px;">
+      <div class="insight-card green">
+        <div class="ic-label">Alcance efectivo al cliente</div>
+        <div class="ic-text">La campaña logro contactar a <strong>3.397 clientes</strong> de la cartera de VU. El Recordatorio para Inscriptos (44,78% apertura) y el correo de post-evento a no asistentes (43,24% apertura, 18,92% CTR) muestran que los clientes mas comprometidos respondieron muy bien al evento.</div>
+      </div>
+      <div class="insight-card green">
+        <div class="ic-label">Formularios: registro de clientes eficiente</div>
+        <div class="ic-text">142 registros al evento, con <strong>90 asistentes (63%)</strong> y <strong>34 empresas presentes</strong>. Los formularios y la landing page (58,1% de conversion) fueron los canales de registro. A futuro, vale invertir en una landing de evento con diseno de marca VU, CTAs e informacion relevante.</div>
+      </div>
+      <div class="insight-card amber">
+        <div class="ic-label">Re-engagement: revisar cadencia</div>
+        <div class="ic-text">La secuencia de re-engagement mostro fatiga progresiva (15,17% → 11,05% → 8,99% apertura). El correo de fe de erratas funciono mejor (22,22%). Para proximas campañas, considerar 2 envios con mayor diferenciacion de mensaje en lugar de 3 similares.</div>
+      </div>
+      <div class="insight-card amber">
+        <div class="ic-label">Transmision en Vivo: medir con ventas</div>
+        <div class="ic-text">Los correos de Transmision en Vivo alcanzaron a clientes del exterior pero su impacto real (apertura del QR, contacto via WhatsApp, conversaciones iniciadas) no es medible digitalmente. Cada representante regional debe reportar los resultados de sus envios.</div>
+      </div>
+      <div class="insight-card">
+        <div class="ic-label">Clasificacion de clientes en HubSpot</div>
+        <div class="ic-text">1.961 contactos influenciados no tienen etapa de ciclo de vida asignada. Aunque son clientes existentes, tenerlos clasificados mejora la personalizacion futura y la visibilidad del equipo sobre el estado de cada cuenta.</div>
+      </div>
+      <div class="insight-card">
+        <div class="ic-label">Proximos pasos recomendados</div>
+        <div class="ic-text">
+          1. Coordinar con ventas el seguimiento individual de los 37 no asistentes de alta apertura.<br>
+          2. Recopilar resultados de los representantes regionales sobre los correos de Transmision en Vivo.<br>
+          3. Clasificar los 1.961 contactos sin etapa de lifecycle en HubSpot.<br>
+          4. Planificar la proxima landing de evento con diseno de marca VU, CTAs y link al sitio oficial.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== CLOSING ==================== -->
+<section id="closing">
+  <div class="section-inner">
+    <div class="tag reveal">VU ONE Argentina</div>
+    <h2 class="reveal">Campaña de Lanzamiento<br>Completada.</h2>
+    <p class="reveal">3.397 clientes alcanzados · 13 correos · 142 registros · 90 asistentes · 34 empresas</p>
+    <p class="reveal" style="margin-top:8px; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:2px; color:rgba(255,255,255,0.6);">19 MARZO — 13 ABRIL 2026</p>
+  </div>
+</section>
+
+<script>
+// Scroll progress
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('scrollProgress').style.width = pct + '%';
+});
+
+// Reveal on scroll
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }});
+}, { threshold: 0.15 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// Animate funnel bars
+const funnelObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const fills = e.target.querySelectorAll('.funnel-fill[data-width]');
+      fills.forEach((f, i) => { setTimeout(() => { f.style.width = f.dataset.width; }, i * 200); });
+      // Segment bars
+      const segFills = e.target.querySelectorAll('.seg-bar-fill[data-width]');
+      segFills.forEach((f, i) => { setTimeout(() => { f.style.width = f.dataset.width; }, i * 150); });
+      funnelObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.2 });
+document.querySelectorAll('.funnel-wrap, .seg-grid').forEach(el => funnelObs.observe(el));
+
+// Nav hide on scroll
+let lastScroll = 0;
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('mainNav');
+  const cur = window.pageYOffset;
+  nav.classList.toggle('hidden', cur > lastScroll && cur > 100);
+  lastScroll = cur;
+});
+
+// Active nav link
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => { if (window.pageYOffset >= s.offsetTop - 200) current = s.getAttribute('id'); });
+  navLinks.forEach(a => {
+    a.classList.remove('active');
+    if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+  });
+});
+
+// Exec cards toggle
+document.querySelectorAll('.exec-card').forEach(card => {
+  card.addEventListener('click', () => card.classList.toggle('open'));
+});
+</script>
+
+</body>
+</html>
