@@ -283,12 +283,13 @@
 
     .month-row {
       display: grid;
-      grid-template-columns: 120px 1fr 1fr 1fr 1fr 1fr 80px;
+      grid-template-columns: 120px 1fr 1fr 1fr 0.8fr 0.9fr 1fr 80px;
       align-items: center;
       padding: 14px 24px;
       border-bottom: 1px solid var(--grid);
       font-size: 13px;
       transition: background .15s;
+      gap: 8px;
     }
 
     .month-row:last-child { border-bottom: none; }
@@ -692,18 +693,20 @@
       <div class="month-row header-row">
         <span>Período</span>
         <span>Audiencia</span>
+        <span>Δ Followers</span>
         <span>Impresiones</span>
-        <span>Interacciones</span>
-        <span>Posts</span>
+        <span>Sessions</span>
+        <span>New Contacts</span>
         <span>Engagement</span>
         <span></span>
       </div>
       <div class="month-row">
         <span class="month-name">Abril 2026</span>
         <span class="month-cell">27.103</span>
+        <span class="month-cell" style="color:var(--gray-mid)">— baseline</span>
         <span class="month-cell">12.229</span>
-        <span class="month-cell">373</span>
-        <span class="month-cell">25</span>
+        <span class="month-cell">6</span>
+        <span class="month-cell">3</span>
         <span class="month-eng">3.05%</span>
         <span><span class="month-badge">Actual</span></span>
       </div>
@@ -715,7 +718,7 @@
         <span class="accum-kpi-months">1 mes</span>
         <div class="accum-kpi-label">Audiencia actual</div>
         <div class="accum-kpi-value">27.103</div>
-        <div class="accum-kpi-detail">Seguidores en LinkedIn</div>
+        <div class="accum-kpi-detail">Baseline inicial — sin mes previo para Δ</div>
       </div>
       <div class="accum-kpi">
         <span class="accum-kpi-months">1 mes</span>
@@ -735,6 +738,18 @@
         <div class="accum-kpi-value accent">3.05%</div>
         <div class="accum-kpi-detail">Promedio mensual · benchmark B2B ~2%</div>
       </div>
+      <div class="accum-kpi">
+        <span class="accum-kpi-months">1 mes</span>
+        <div class="accum-kpi-label">Sessions acumuladas</div>
+        <div class="accum-kpi-value">6</div>
+        <div class="accum-kpi-detail">Tráfico LinkedIn → sitio VU</div>
+      </div>
+      <div class="accum-kpi">
+        <span class="accum-kpi-months">1 mes</span>
+        <div class="accum-kpi-label">New Contacts acumulados</div>
+        <div class="accum-kpi-value accent">3</div>
+        <div class="accum-kpi-detail">50% conversión sesión → contacto</div>
+      </div>
     </div>
   </section>
 
@@ -751,7 +766,7 @@
       <div class="kpi-card">
         <div class="kpi-label">Audiencia</div>
         <div class="kpi-value">27.103</div>
-        <div class="kpi-detail">Seguidores totales</div>
+        <div class="kpi-detail">Baseline inicial — sin mes previo</div>
       </div>
       <div class="kpi-card">
         <div class="kpi-label">Impresiones</div>
@@ -777,6 +792,16 @@
         <div class="kpi-label">Publicaciones</div>
         <div class="kpi-value">25</div>
         <div class="kpi-detail">~6.3 posts por semana</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Sessions</div>
+        <div class="kpi-value">6</div>
+        <div class="kpi-detail">Tráfico LinkedIn → sitio VU</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">New Contacts</div>
+        <div class="kpi-value accent">3</div>
+        <div class="kpi-detail">50% conversión sesión → contacto</div>
       </div>
     </div>
 
