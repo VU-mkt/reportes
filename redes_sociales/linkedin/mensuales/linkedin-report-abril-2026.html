@@ -21,11 +21,10 @@
       --gray-light:  #D9D9D4;
       --gray-mid:    #6D7378;
       --grid:        rgba(255,255,255,.055);
-      --nav-h:       60px;
+      --sidebar-w:   260px;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
 
     body {
       background: var(--dark);
@@ -33,192 +32,224 @@
       font-family: 'DM Sans', Arial, sans-serif;
       font-size: 15px;
       line-height: 1.6;
-      min-height: 100vh;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
     }
 
     /* ════════════════════════════════════════
-       NAV
+       SIDEBAR
     ════════════════════════════════════════ */
-    .nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      height: var(--nav-h);
-      background: rgba(22,22,24,.85);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(255,255,255,.07);
+    .sidebar {
+      width: var(--sidebar-w);
+      flex-shrink: 0;
+      height: 100vh;
+      overflow-y: auto;
+      background: var(--elevated);
+      border-right: 1px solid rgba(255,255,255,.07);
       display: flex;
-      align-items: center;
-      padding: 0 40px;
-      gap: 0;
+      flex-direction: column;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,255,255,.08) transparent;
     }
 
-    .nav-logo {
+    .sidebar-logo {
       display: flex;
       align-items: center;
-      gap: 12px;
-      text-decoration: none;
+      gap: 10px;
+      padding: 24px 20px 20px;
+      border-bottom: 1px solid rgba(255,255,255,.06);
       flex-shrink: 0;
     }
 
-    .nav-logo svg { height: 28px; width: auto; }
+    .sidebar-logo svg { height: 22px; width: auto; flex-shrink: 0; }
 
-    .nav-divider {
-      width: 1px;
-      height: 20px;
-      background: rgba(255,255,255,.15);
-      margin: 0 20px;
-      flex-shrink: 0;
-    }
-
-    .nav-label {
-      font-size: 13px;
+    .sidebar-logo-label {
+      font-size: 11.5px;
       font-weight: 500;
       color: var(--gray-mid);
+      line-height: 1.35;
+    }
+
+    .sidebar-block {
+      padding: 14px 20px;
+      border-bottom: 1px solid rgba(255,255,255,.06);
       flex-shrink: 0;
     }
 
-    .nav-tabs {
-      display: flex;
-      align-items: center;
-      gap: 2px;
-      margin-left: auto;
+    .sidebar-eyebrow {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--gray-mid);
+      font-weight: 600;
+      margin-bottom: 5px;
     }
 
-    .nav-tab {
-      padding: 6px 16px;
-      border-radius: 6px;
-      font-size: 13px;
-      font-weight: 500;
+    .sidebar-period-value {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--cream);
+    }
+
+    .sidebar-period-sub {
+      font-size: 11px;
       color: var(--gray-mid);
-      text-decoration: none;
+      margin-top: 1px;
+    }
+
+    /* Nav */
+    .sidebar-nav {
+      padding: 8px 10px 12px;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      flex-shrink: 0;
+    }
+
+    .sidebar-nav-eyebrow {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--gray-mid);
+      font-weight: 600;
+      padding: 8px 10px 6px;
+    }
+
+    .snav-item {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 7px;
       border: none;
       background: transparent;
       cursor: pointer;
       font-family: 'DM Sans', Arial, sans-serif;
-      transition: color .15s, background .15s;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--gray-mid);
+      text-align: left;
+      transition: color .14s, background .14s;
     }
 
-    .nav-tab:hover { color: var(--cream); background: rgba(255,255,255,.06); }
-    .nav-tab.active { color: var(--orange); background: var(--orange-dim); }
+    .snav-item:hover { color: var(--cream); background: rgba(255,255,255,.04); }
+
+    .snav-item.active {
+      color: var(--orange);
+      background: var(--orange-dim);
+    }
+
+    .snav-icon {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      fill: currentColor;
+      opacity: .65;
+    }
+
+    .snav-item.active .snav-icon { opacity: 1; }
+
+    /* Mini KPIs */
+    .sidebar-kpis {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px 12px;
+    }
+
+    .skpi-item { display: flex; flex-direction: column; gap: 2px; }
+    .skpi-item.wide { grid-column: 1 / -1; }
+
+    .skpi-value {
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--cream);
+      line-height: 1;
+    }
+
+    .skpi-value.accent { color: var(--orange); }
+
+    .skpi-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      color: var(--gray-mid);
+      font-weight: 600;
+    }
+
+    /* Keyboard hint */
+    .sidebar-hint {
+      padding: 10px 20px;
+      font-size: 10.5px;
+      color: var(--gray-mid);
+      opacity: .45;
+      text-align: center;
+      letter-spacing: .3px;
+    }
+
+    /* Sidebar footer */
+    .sidebar-foot {
+      margin-top: auto;
+      padding: 14px 20px;
+      border-top: 1px solid rgba(255,255,255,.06);
+    }
+
+    .sidebar-foot-logo { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+    .sidebar-foot-logo svg { height: 16px; width: auto; opacity: .35; }
+    .sidebar-foot-text { font-size: 11px; color: var(--gray-mid); opacity: .45; line-height: 1.6; }
 
     /* ════════════════════════════════════════
-       HERO
+       MAIN CONTENT
     ════════════════════════════════════════ */
-    .hero {
+    .main {
+      flex: 1;
+      height: 100vh;
+      overflow-y: auto;
+      overflow-x: hidden;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,255,255,.08) transparent;
       position: relative;
-      overflow: hidden;
-      padding: 72px 40px 64px;
-      border-bottom: 1px solid rgba(255,255,255,.06);
     }
 
-    /* Triangle geometric pattern — VU brand */
-    .hero::before {
+    /* Subtle triangle pattern — VU brand */
+    .main::before {
       content: '';
-      position: absolute;
-      inset: 0;
+      position: fixed;
+      top: 0; bottom: 0;
+      left: var(--sidebar-w);
+      right: 0;
       background-image:
-        linear-gradient(135deg, transparent 48%, rgba(241,94,55,.055) 48%, rgba(241,94,55,.055) 52%, transparent 52%),
-        linear-gradient(45deg,  transparent 48%, rgba(241,94,55,.035) 48%, rgba(241,94,55,.035) 52%, transparent 52%);
+        linear-gradient(135deg, transparent 48%, rgba(241,94,55,.028) 48%, rgba(241,94,55,.028) 52%, transparent 52%),
+        linear-gradient(45deg,  transparent 48%, rgba(241,94,55,.018) 48%, rgba(241,94,55,.018) 52%, transparent 52%);
       background-size: 72px 72px;
       pointer-events: none;
+      z-index: 0;
     }
 
-    /* Orange glow bottom-right */
-    .hero::after {
-      content: '';
-      position: absolute;
-      bottom: -120px;
-      right: -80px;
-      width: 600px;
-      height: 600px;
-      background: radial-gradient(circle, rgba(241,94,55,.08) 0%, transparent 65%);
-      pointer-events: none;
-    }
-
-    .hero-inner {
-      max-width: 1160px;
-      margin: 0 auto;
+    /* ════════════════════════════════════════
+       PANELS
+    ════════════════════════════════════════ */
+    .panel {
+      display: none;
+      padding: 40px 48px 80px;
+      max-width: 1100px;
       position: relative;
       z-index: 1;
     }
 
-    .hero-eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 12px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      color: var(--orange);
-      margin-bottom: 20px;
+    .panel.active {
+      display: block;
+      animation: panelIn .18s ease-out forwards;
     }
 
-    .hero-eyebrow-dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--orange);
-    }
-
-    .hero-title {
-      font-size: clamp(32px, 4vw, 52px);
-      font-weight: 700;
-      color: var(--cream);
-      line-height: 1.1;
-      letter-spacing: -1.5px;
-      margin-bottom: 12px;
-    }
-
-    .hero-title span { color: var(--orange); }
-
-    .hero-sub {
-      font-size: 16px;
-      color: var(--gray-light);
-      margin-bottom: 40px;
-      max-width: 560px;
-    }
-
-    .hero-meta {
-      display: flex;
-      gap: 24px;
-      flex-wrap: wrap;
-    }
-
-    .hero-meta-item {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .hero-meta-label {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--gray-mid);
-    }
-
-    .hero-meta-value {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--gray-light);
+    @keyframes panelIn {
+      from { opacity: 0; transform: translateX(10px); }
+      to   { opacity: 1; transform: translateX(0); }
     }
 
     /* ════════════════════════════════════════
-       LAYOUT
+       SECTION HEADERS (inside panels)
     ════════════════════════════════════════ */
-    .page {
-      max-width: 1160px;
-      margin: 0 auto;
-      padding: 0 40px 80px;
-    }
-
-    section { padding-top: 56px; }
-
-    .section-header {
-      margin-bottom: 28px;
-    }
+    .section-header { margin-bottom: 28px; }
 
     .section-eyebrow {
       font-size: 11px;
@@ -230,7 +261,7 @@
     }
 
     .section-title {
-      font-size: 22px;
+      font-size: 24px;
       font-weight: 700;
       color: var(--cream);
       letter-spacing: -.5px;
@@ -253,12 +284,11 @@
 
     @media (max-width: 700px) { .accum-grid { grid-template-columns: 1fr; } }
 
-    /* Month history strip */
     .month-history {
       background: var(--surface);
       border-radius: 14px;
       border: 1px solid var(--grid);
-      overflow: hidden;
+      overflow: auto;
       grid-column: 1 / -1;
     }
 
@@ -270,16 +300,8 @@
       justify-content: space-between;
     }
 
-    .month-history-title {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--cream);
-    }
-
-    .month-history-hint {
-      font-size: 12px;
-      color: var(--gray-mid);
-    }
+    .month-history-title { font-size: 14px; font-weight: 600; color: var(--cream); }
+    .month-history-hint  { font-size: 12px; color: var(--gray-mid); }
 
     .month-row {
       display: grid;
@@ -290,6 +312,7 @@
       font-size: 13px;
       transition: background .15s;
       gap: 8px;
+      min-width: 700px;
     }
 
     .month-row:last-child { border-bottom: none; }
@@ -307,17 +330,9 @@
 
     .month-row.header-row:hover { background: transparent; }
 
-    .month-name {
-      font-weight: 600;
-      color: var(--cream);
-    }
-
+    .month-name { font-weight: 600; color: var(--cream); }
     .month-cell { color: var(--gray-light); }
-
-    .month-eng {
-      font-weight: 600;
-      color: var(--orange);
-    }
+    .month-eng  { font-weight: 600; color: var(--orange); }
 
     .month-badge {
       display: inline-block;
@@ -330,7 +345,6 @@
       color: var(--orange);
     }
 
-    /* Cumulative KPIs */
     .accum-kpi {
       background: var(--surface);
       border-radius: 14px;
@@ -362,10 +376,7 @@
 
     .accum-kpi-value.accent { color: var(--orange); }
 
-    .accum-kpi-detail {
-      font-size: 13px;
-      color: var(--gray-mid);
-    }
+    .accum-kpi-detail { font-size: 13px; color: var(--gray-mid); }
 
     .accum-kpi-months {
       position: absolute;
@@ -431,11 +442,7 @@
     }
 
     .kpi-value.accent { color: var(--orange); }
-
-    .kpi-detail {
-      font-size: 12px;
-      color: var(--gray-mid);
-    }
+    .kpi-detail { font-size: 12px; color: var(--gray-mid); }
 
     /* ════════════════════════════════════════
        CHARTS
@@ -592,25 +599,6 @@
     .eng-cell { text-align: right; font-size: 14px; font-weight: 600; color: var(--orange); }
 
     /* ════════════════════════════════════════
-       FOOTER
-    ════════════════════════════════════════ */
-    .footer {
-      border-top: 1px solid rgba(255,255,255,.06);
-      padding: 32px 40px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px;
-      max-width: 100%;
-    }
-
-    .footer-logo { display: flex; align-items: center; gap: 10px; }
-    .footer-logo svg { height: 20px; width: auto; opacity: .5; }
-
-    .footer-text { font-size: 12px; color: var(--gray-mid); }
-
-    /* ════════════════════════════════════════
        AUDIENCIA GEO
     ════════════════════════════════════════ */
     .geo-grid {
@@ -732,19 +720,15 @@
     .vis-detail-table tr:last-child td { border-bottom: none; }
     .vis-detail-table tbody tr:hover td { background: rgba(241,94,55,.03); }
     .vis-detail-table td.dash { color: var(--gray-mid); }
-
-    /* ════════════════════════════════════════
-       SCROLL TARGET OFFSET
-    ════════════════════════════════════════ */
-    [id] { scroll-margin-top: calc(var(--nav-h) + 12px); }
   </style>
 </head>
 <body>
 
-<!-- ══ NAV ══ -->
-<nav class="nav">
-  <a class="nav-logo" href="#">
-    <!-- VU Logo Blanco inline SVG -->
+<!-- ══ SIDEBAR ══ -->
+<aside class="sidebar">
+
+  <!-- Logo -->
+  <div class="sidebar-logo">
     <svg viewBox="0 0 1035.25 384.98" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="VU">
       <path fill="#fff" d="M1026.58,30.96h0c-5.86-6.4-13.59-9.64-22.96-9.64s-17.03,3.28-22.58,9.74c-5.38,6.28-8.1,14.13-8.1,23.31v171.52c0,14.91-3.45,27.96-10.25,38.76-6.86,10.87-15.9,19.39-26.9,25.33-11.01,5.95-23.1,8.97-35.93,8.97-11.87,0-23.22-3-33.74-8.94-10.51-5.92-19.08-14.42-25.47-25.26-6.37-10.82-9.6-23.9-9.6-38.87V54.37c0-9.35-3.39-17.3-10.07-23.63-6.62-6.25-14.2-9.42-22.51-9.42-9.91,0-18.22,3.18-24.69,9.46-6.49,6.32-9.79,14.27-9.79,23.59v171.52c0,26.81,5.84,50.92,17.34,71.66,11.53,20.79,27.68,37.26,47.99,48.96,20.29,11.69,44.02,17.61,70.54,17.61s50.17-5.93,70.31-17.63c20.15-11.7,36.21-28.17,47.74-48.95,11.51-20.75,17.34-44.86,17.34-71.66V54.37c0-9.23-2.92-17.11-8.67-23.41"/>
       <path fill="#fff" d="M712.33,30.7h0c-6.64-5.91-14.53-8.91-23.47-8.91-13.79,0-23.87,6.91-29.99,20.61l-83.93,215.46-91.63-215.47c-6.1-13.98-16.18-21.08-29.98-21.08-6.9,0-14.14,2.76-21.5,8.18-7.75,5.73-11.68,13.98-11.68,24.52,0,2.13.17,4.34.52,6.58.38,2.46,1.15,4.87,2.25,7.08l117.48,275.87c2.87,6.47,7.09,11.5,12.53,14.94,5.34,3.38,10.96,5.27,16.85,5.63,6.2,0,12.3-1.7,18.14-5.07,5.98-3.43,10.64-8.8,13.86-15.96l117.55-275.07c2.12-4.94,3.19-9.81,3.19-14.48,0-9.13-3.43-16.81-10.19-22.84"/>
@@ -754,55 +738,93 @@
       <path fill="#fff" d="M250.91,88.56l-10.45,39.21c6.49,4.8,12.31,10.57,17.18,17.19,10.22,13.92,15.62,30.43,15.62,47.76,0,32.01-18.93,61.06-48.21,73.99-10.28,4.55-21.25,6.86-32.63,6.86-44.56,0-80.82-36.27-80.82-80.85s33.39-77.86,75.47-80.62l10.34-38.77c-1.65-.08-3.31-.13-4.98-.13-65.92,0-119.53,53.61-119.53,119.52s53.61,119.55,119.53,119.55c16.79,0,33.03-3.42,48.28-10.14,43.3-19.14,71.26-62.08,71.26-109.41,0-25.62-7.99-50.06-23.12-70.65-10.22-13.92-23.23-25.27-37.93-33.51"/>
       <path fill="#fff" d="M209.09,137.49c5.54,1.48,11.23-1.81,12.71-7.36l13.12-49.24c1.47-5.54-1.81-11.22-7.36-12.7-5.54-1.48-11.22,1.82-12.7,7.36l-13.12,49.24c-1.48,5.54,1.82,11.24,7.36,12.71"/>
     </svg>
-  </a>
-
-  <div class="nav-divider"></div>
-  <span class="nav-label">LinkedIn Analytics</span>
-
-  <div class="nav-tabs">
-    <a class="nav-tab active" href="#dashboard">Dashboard</a>
-    <a class="nav-tab" href="#abril">Abril 2026</a>
-    <a class="nav-tab" href="#audiencia">Audiencia</a>
-    <a class="nav-tab" href="#visitantes">Visitantes</a>
-    <a class="nav-tab" href="#posts">Posts</a>
+    <span class="sidebar-logo-label">LinkedIn<br>Analytics</span>
   </div>
-</nav>
 
-<!-- ══ HERO ══ -->
-<div class="hero">
-  <div class="hero-inner">
-    <div class="hero-eyebrow">
-      <div class="hero-eyebrow-dot"></div>
-      Reporte mensual · LinkedIn
+  <!-- Period -->
+  <div class="sidebar-block">
+    <div class="sidebar-eyebrow">Período</div>
+    <div class="sidebar-period-value">Abril 2026</div>
+    <div class="sidebar-period-sub">01 — 30 de abril</div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="sidebar-nav">
+    <div class="sidebar-nav-eyebrow">Secciones</div>
+
+    <button class="snav-item active" data-panel="dashboard">
+      <svg class="snav-icon" viewBox="0 0 16 16"><rect x="1" y="1" width="6" height="6" rx="1.2"/><rect x="9" y="1" width="6" height="6" rx="1.2"/><rect x="1" y="9" width="6" height="6" rx="1.2"/><rect x="9" y="9" width="6" height="6" rx="1.2" opacity=".5"/></svg>
+      Dashboard
+    </button>
+
+    <button class="snav-item" data-panel="abril">
+      <svg class="snav-icon" viewBox="0 0 16 16"><path d="M3 2h10a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm0 3.5h10V4H3v1.5z" opacity=".7"/><rect x="5" y="7.5" width="2" height="2" rx=".5"/><rect x="9" y="7.5" width="2" height="2" rx=".5"/><rect x="5" y="11" width="2" height="2" rx=".5"/></svg>
+      Abril 2026
+    </button>
+
+    <button class="snav-item" data-panel="audiencia">
+      <svg class="snav-icon" viewBox="0 0 16 16"><circle cx="5.5" cy="5" r="2.5" opacity=".9"/><path d="M1 14c0-2.5 2-4.5 4.5-4.5S10 11.5 10 14z" opacity=".85"/><circle cx="12" cy="5" r="2" opacity=".5"/><path d="M10 14c0-1.9 1.4-3.5 3-3.5 1.6 0 3 1.5 3 3.5z" opacity=".45"/></svg>
+      Audiencia
+    </button>
+
+    <button class="snav-item" data-panel="visitantes">
+      <svg class="snav-icon" viewBox="0 0 16 16"><path d="M8 1.5C5.5 1.5 3.5 3.5 3.5 6c0 3.8 4.5 8.5 4.5 8.5s4.5-4.7 4.5-8.5C12.5 3.5 10.5 1.5 8 1.5z" opacity=".35"/><circle cx="8" cy="6" r="2.2"/></svg>
+      Visitantes
+    </button>
+
+    <button class="snav-item" data-panel="posts">
+      <svg class="snav-icon" viewBox="0 0 16 16"><rect x="1" y="2.5" width="14" height="2" rx=".8"/><rect x="1" y="7" width="10" height="2" rx=".8"/><rect x="1" y="11.5" width="12" height="2" rx=".8"/></svg>
+      Posts
+    </button>
+  </nav>
+
+  <!-- Mini KPIs — resumen siempre visible -->
+  <div class="sidebar-block sidebar-kpis">
+    <div class="sidebar-eyebrow" style="grid-column:1/-1">Resumen abril</div>
+    <div class="skpi-item">
+      <div class="skpi-value">27.103</div>
+      <div class="skpi-label">Seguidores</div>
     </div>
-    <h1 class="hero-title">LinkedIn <span>Performance</span><br>VU Inc.</h1>
-    <p class="hero-sub">Análisis de rendimiento de la página corporativa. Datos extraídos desde HubSpot Social Analytics.</p>
-    <div class="hero-meta">
-      <div class="hero-meta-item">
-        <span class="hero-meta-label">Último período</span>
-        <span class="hero-meta-value">Abril 2026 — 01 al 30</span>
-      </div>
-      <div class="hero-meta-item">
-        <span class="hero-meta-label">Canal</span>
-        <span class="hero-meta-value">LinkedIn · Página Corporativa</span>
-      </div>
-      <div class="hero-meta-item">
-        <span class="hero-meta-label">Fuente</span>
-        <span class="hero-meta-value">HubSpot Social Analytics</span>
-      </div>
-      <div class="hero-meta-item">
-        <span class="hero-meta-label">Generado</span>
-        <span class="hero-meta-value">30 de abril, 2026</span>
-      </div>
+    <div class="skpi-item">
+      <div class="skpi-value accent">3.05%</div>
+      <div class="skpi-label">Engagement</div>
+    </div>
+    <div class="skpi-item">
+      <div class="skpi-value">12.229</div>
+      <div class="skpi-label">Impresiones</div>
+    </div>
+    <div class="skpi-item">
+      <div class="skpi-value">25</div>
+      <div class="skpi-label">Posts</div>
     </div>
   </div>
-</div>
 
-<!-- ══ PAGE BODY ══ -->
-<div class="page">
+  <!-- Keyboard hint -->
+  <div class="sidebar-hint">← → para navegar</div>
 
-  <!-- ════ SECCIÓN 1: DASHBOARD ACUMULADO ════ -->
-  <section id="dashboard">
+  <!-- Footer -->
+  <div class="sidebar-foot">
+    <div class="sidebar-foot-logo">
+      <svg viewBox="0 0 1035.25 384.98" xmlns="http://www.w3.org/2000/svg">
+        <path fill="#fff" d="M1026.58,30.96h0c-5.86-6.4-13.59-9.64-22.96-9.64s-17.03,3.28-22.58,9.74c-5.38,6.28-8.1,14.13-8.1,23.31v171.52c0,14.91-3.45,27.96-10.25,38.76-6.86,10.87-15.9,19.39-26.9,25.33-11.01,5.95-23.1,8.97-35.93,8.97-11.87,0-23.22-3-33.74-8.94-10.51-5.92-19.08-14.42-25.47-25.26-6.37-10.82-9.6-23.9-9.6-38.87V54.37c0-9.35-3.39-17.3-10.07-23.63-6.62-6.25-14.2-9.42-22.51-9.42-9.91,0-18.22,3.18-24.69,9.46-6.49,6.32-9.79,14.27-9.79,23.59v171.52c0,26.81,5.84,50.92,17.34,71.66,11.53,20.79,27.68,37.26,47.99,48.96,20.29,11.69,44.02,17.61,70.54,17.61s50.17-5.93,70.31-17.63c20.15-11.7,36.21-28.17,47.74-48.95,11.51-20.75,17.34-44.86,17.34-71.66V54.37c0-9.23-2.92-17.11-8.67-23.41"/>
+        <path fill="#fff" d="M712.33,30.7h0c-6.64-5.91-14.53-8.91-23.47-8.91-13.79,0-23.87,6.91-29.99,20.61l-83.93,215.46-91.63-215.47c-6.1-13.98-16.18-21.08-29.98-21.08-6.9,0-14.14,2.76-21.5,8.18-7.75,5.73-11.68,13.98-11.68,24.52,0,2.13.17,4.34.52,6.58.38,2.46,1.15,4.87,2.25,7.08l117.48,275.87c2.87,6.47,7.09,11.5,12.53,14.94,5.34,3.38,10.96,5.27,16.85,5.63,6.2,0,12.3-1.7,18.14-5.07,5.98-3.43,10.64-8.8,13.86-15.96l117.55-275.07c2.12-4.94,3.19-9.81,3.19-14.48,0-9.13-3.43-16.81-10.19-22.84"/>
+        <path fill="#fff" d="M253.83,333.57c-18.41,8.01-37.95,12.28-58.16,12.68-76.8,1.54-144.06-54.54-155.24-130.53C26.43,120.66,100.06,38.71,192.48,38.71c3.39,0,6.78.12,10.15.36-5.75-16.97.94-31.5,6.53-38.22.03-.04,0-.09-.03-.09-5.52-.49-11.06-.75-16.65-.75C86.35,0,0,86.36,0,192.5s86.35,192.49,192.48,192.49c27.05,0,53.19-5.5,77.73-16.33,10.4-4.61,14.75-17.24,8.94-27.38-4.99-8.71-16.12-11.7-25.32-7.7"/>
+        <path fill="#fff" d="M347.71,78.94c-18.58-25.31-42.9-45.36-70.46-58.86,0,0-.02,0-.02,0,2.09,15.46-4.29,28.31-14.14,36.02-.07.05-.05.13.02.16,20.83,10.75,39.2,26.24,53.37,45.57,6.33,8.61,18.45,10.48,27.06,4.16,8.62-6.34,10.47-18.45,4.16-27.06"/>
+        <path fill="#fff" d="M239.07,44.32c10.23,0,18.51-8.29,18.51-18.51s-8.28-18.51-18.51-18.51-18.51,8.28-18.51,18.51,8.28,18.51,18.51,18.51"/>
+        <path fill="#fff" d="M250.91,88.56l-10.45,39.21c6.49,4.8,12.31,10.57,17.18,17.19,10.22,13.92,15.62,30.43,15.62,47.76,0,32.01-18.93,61.06-48.21,73.99-10.28,4.55-21.25,6.86-32.63,6.86-44.56,0-80.82-36.27-80.82-80.85s33.39-77.86,75.47-80.62l10.34-38.77c-1.65-.08-3.31-.13-4.98-.13-65.92,0-119.53,53.61-119.53,119.52s53.61,119.55,119.53,119.55c16.79,0,33.03-3.42,48.28-10.14,43.3-19.14,71.26-62.08,71.26-109.41,0-25.62-7.99-50.06-23.12-70.65-10.22-13.92-23.23-25.27-37.93-33.51"/>
+        <path fill="#fff" d="M209.09,137.49c5.54,1.48,11.23-1.81,12.71-7.36l13.12-49.24c1.47-5.54-1.81-11.22-7.36-12.7-5.54-1.48-11.22,1.82-12.7,7.36l-13.12,49.24c-1.48,5.54,1.82,11.24,7.36,12.71"/>
+      </svg>
+    </div>
+    <div class="sidebar-foot-text">© VU Inc. All Rights Reserved.<br>vusecurity.com · HubSpot · Abr 2026</div>
+  </div>
+
+</aside>
+
+<!-- ══ MAIN CONTENT ══ -->
+<main class="main">
+
+  <!-- ════ PANEL 1: DASHBOARD ACUMULADO ════ -->
+  <div class="panel active" id="dashboard">
     <div class="section-header">
       <div class="section-eyebrow">Dashboard acumulado</div>
       <h2 class="section-title">Evolución por mes</h2>
@@ -876,10 +898,10 @@
         <div class="accum-kpi-detail">50% conversión sesión → contacto</div>
       </div>
     </div>
-  </section>
+  </div>
 
-  <!-- ════ SECCIÓN 2: ABRIL 2026 ════ -->
-  <section id="abril">
+  <!-- ════ PANEL 2: ABRIL 2026 ════ -->
+  <div class="panel" id="abril">
     <div class="section-header">
       <div class="section-eyebrow">Abril 2026 · 01 — 30</div>
       <h2 class="section-title">Métricas del período</h2>
@@ -960,7 +982,6 @@
 
     <!-- Charts -->
     <div class="charts-grid">
-
       <div class="chart-card">
         <div class="chart-head">
           <div class="chart-name">Top 10 — Interacciones por post</div>
@@ -984,12 +1005,11 @@
         </div>
         <div class="chart-wrap"><canvas id="chartEngagement"></canvas></div>
       </div>
-
     </div>
-  </section>
+  </div>
 
-  <!-- ════ SECCIÓN 3: AUDIENCIA POR UBICACIÓN ════ -->
-  <section id="audiencia">
+  <!-- ════ PANEL 3: AUDIENCIA POR UBICACIÓN ════ -->
+  <div class="panel" id="audiencia">
     <div class="section-header">
       <div class="section-eyebrow">Seguidores · Distribución geográfica</div>
       <h2 class="section-title">Audiencia por país</h2>
@@ -1030,198 +1050,51 @@
       <div class="geo-card">
         <div class="geo-card-title">Argentina — por provincia</div>
         <div class="geo-card-sub">12.813 seguidores · 47.3% del total identificado</div>
-
-        <div class="geo-row">
-          <span class="geo-name">Buenos Aires <span class="geo-note">incl. CABA y GBA</span></span>
-          <div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:100%"></div></div>
-          <span class="geo-count">9.348</span>
-          <span class="geo-pct">72.9%</span>
-        </div>
-        <div class="geo-row">
-          <span class="geo-name">Córdoba</span>
-          <div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:14.1%"></div></div>
-          <span class="geo-count">1.318</span>
-          <span class="geo-pct">10.3%</span>
-        </div>
-        <div class="geo-row">
-          <span class="geo-name">Santa Fe</span>
-          <div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:7.7%"></div></div>
-          <span class="geo-count">718</span>
-          <span class="geo-pct">5.6%</span>
-        </div>
-        <div class="geo-row">
-          <span class="geo-name">Mendoza</span>
-          <div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:4.6%"></div></div>
-          <span class="geo-count">431</span>
-          <span class="geo-pct">3.4%</span>
-        </div>
-        <div class="geo-row">
-          <span class="geo-name">Tucumán</span>
-          <div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:1.9%"></div></div>
-          <span class="geo-count">177</span>
-          <span class="geo-pct">1.4%</span>
-        </div>
-        <div class="geo-row">
-          <span class="geo-name">Salta</span>
-          <div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:1.3%"></div></div>
-          <span class="geo-count">117</span>
-          <span class="geo-pct">0.9%</span>
-        </div>
-        <div class="geo-row">
-          <span class="geo-name">Entre Ríos</span>
-          <div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:1.2%"></div></div>
-          <span class="geo-count">116</span>
-          <span class="geo-pct">0.9%</span>
-        </div>
-        <div class="geo-row">
-          <span class="geo-name">Neuquén</span>
-          <div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:1.0%"></div></div>
-          <span class="geo-count">97</span>
-          <span class="geo-pct">0.8%</span>
-        </div>
-        <div class="geo-row">
-          <span class="geo-name">Río Negro</span>
-          <div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:0.9%"></div></div>
-          <span class="geo-count">85</span>
-          <span class="geo-pct">0.7%</span>
-        </div>
-        <div class="geo-row">
-          <span class="geo-name">Misiones</span>
-          <div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:0.7%"></div></div>
-          <span class="geo-count">63</span>
-          <span class="geo-pct">0.5%</span>
-        </div>
-        <div class="geo-row">
-          <span class="geo-name">San Juan</span>
-          <div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:0.6%"></div></div>
-          <span class="geo-count">59</span>
-          <span class="geo-pct">0.5%</span>
-        </div>
-        <div class="geo-row">
-          <span class="geo-name">Chaco</span>
-          <div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:0.6%"></div></div>
-          <span class="geo-count">55</span>
-          <span class="geo-pct">0.4%</span>
-        </div>
-        <div class="geo-row">
-          <span class="geo-name">Corrientes</span>
-          <div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:0.5%"></div></div>
-          <span class="geo-count">51</span>
-          <span class="geo-pct">0.4%</span>
-        </div>
-        <div class="geo-row">
-          <span class="geo-name">Jujuy</span>
-          <div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:0.4%"></div></div>
-          <span class="geo-count">38</span>
-          <span class="geo-pct">0.3%</span>
-        </div>
-        <div class="geo-row">
-          <span class="geo-name">Santiago del Estero</span>
-          <div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:0.3%"></div></div>
-          <span class="geo-count">32</span>
-          <span class="geo-pct">0.2%</span>
-        </div>
-        <div class="geo-row">
-          <span class="geo-name">San Luis</span>
-          <div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:0.3%"></div></div>
-          <span class="geo-count">32</span>
-          <span class="geo-pct">0.2%</span>
-        </div>
-        <div class="geo-row">
-          <span class="geo-name">La Rioja</span>
-          <div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:0.3%"></div></div>
-          <span class="geo-count">31</span>
-          <span class="geo-pct">0.2%</span>
-        </div>
-        <div class="geo-row">
-          <span class="geo-name">Chubut</span>
-          <div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:0.3%"></div></div>
-          <span class="geo-count">25</span>
-          <span class="geo-pct">0.2%</span>
-        </div>
-        <div class="geo-row">
-          <span class="geo-name">Formosa</span>
-          <div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:0.2%"></div></div>
-          <span class="geo-count">20</span>
-          <span class="geo-pct">0.2%</span>
-        </div>
+        <div class="geo-row"><span class="geo-name">Buenos Aires <span class="geo-note">incl. CABA y GBA</span></span><div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:100%"></div></div><span class="geo-count">9.348</span><span class="geo-pct">72.9%</span></div>
+        <div class="geo-row"><span class="geo-name">Córdoba</span><div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:14.1%"></div></div><span class="geo-count">1.318</span><span class="geo-pct">10.3%</span></div>
+        <div class="geo-row"><span class="geo-name">Santa Fe</span><div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:7.7%"></div></div><span class="geo-count">718</span><span class="geo-pct">5.6%</span></div>
+        <div class="geo-row"><span class="geo-name">Mendoza</span><div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:4.6%"></div></div><span class="geo-count">431</span><span class="geo-pct">3.4%</span></div>
+        <div class="geo-row"><span class="geo-name">Tucumán</span><div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:1.9%"></div></div><span class="geo-count">177</span><span class="geo-pct">1.4%</span></div>
+        <div class="geo-row"><span class="geo-name">Salta</span><div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:1.3%"></div></div><span class="geo-count">117</span><span class="geo-pct">0.9%</span></div>
+        <div class="geo-row"><span class="geo-name">Entre Ríos</span><div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:1.2%"></div></div><span class="geo-count">116</span><span class="geo-pct">0.9%</span></div>
+        <div class="geo-row"><span class="geo-name">Neuquén</span><div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:1.0%"></div></div><span class="geo-count">97</span><span class="geo-pct">0.8%</span></div>
+        <div class="geo-row"><span class="geo-name">Río Negro</span><div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:0.9%"></div></div><span class="geo-count">85</span><span class="geo-pct">0.7%</span></div>
+        <div class="geo-row"><span class="geo-name">Misiones</span><div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:0.7%"></div></div><span class="geo-count">63</span><span class="geo-pct">0.5%</span></div>
+        <div class="geo-row"><span class="geo-name">San Juan</span><div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:0.6%"></div></div><span class="geo-count">59</span><span class="geo-pct">0.5%</span></div>
+        <div class="geo-row"><span class="geo-name">Chaco</span><div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:0.6%"></div></div><span class="geo-count">55</span><span class="geo-pct">0.4%</span></div>
+        <div class="geo-row"><span class="geo-name">Corrientes</span><div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:0.5%"></div></div><span class="geo-count">51</span><span class="geo-pct">0.4%</span></div>
+        <div class="geo-row"><span class="geo-name">Jujuy</span><div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:0.4%"></div></div><span class="geo-count">38</span><span class="geo-pct">0.3%</span></div>
+        <div class="geo-row"><span class="geo-name">Santiago del Estero</span><div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:0.3%"></div></div><span class="geo-count">32</span><span class="geo-pct">0.2%</span></div>
+        <div class="geo-row"><span class="geo-name">San Luis</span><div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:0.3%"></div></div><span class="geo-count">32</span><span class="geo-pct">0.2%</span></div>
+        <div class="geo-row"><span class="geo-name">La Rioja</span><div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:0.3%"></div></div><span class="geo-count">31</span><span class="geo-pct">0.2%</span></div>
+        <div class="geo-row"><span class="geo-name">Chubut</span><div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:0.3%"></div></div><span class="geo-count">25</span><span class="geo-pct">0.2%</span></div>
+        <div class="geo-row"><span class="geo-name">Formosa</span><div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:0.2%"></div></div><span class="geo-count">20</span><span class="geo-pct">0.2%</span></div>
       </div>
 
       <div class="geo-card">
         <div class="geo-card-title">Brasil — por estado</div>
         <div class="geo-card-sub">1.556 seguidores · 5.7% del total identificado</div>
-
-        <div class="geo-row">
-          <span class="geo-name">São Paulo</span>
-          <div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:100%"></div></div>
-          <span class="geo-count">1.045</span>
-          <span class="geo-pct">67.2%</span>
-        </div>
-        <div class="geo-row">
-          <span class="geo-name">Rio de Janeiro</span>
-          <div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:10.9%"></div></div>
-          <span class="geo-count">114</span>
-          <span class="geo-pct">7.3%</span>
-        </div>
-        <div class="geo-row">
-          <span class="geo-name">Minas Gerais</span>
-          <div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:8.5%"></div></div>
-          <span class="geo-count">89</span>
-          <span class="geo-pct">5.7%</span>
-        </div>
-        <div class="geo-row">
-          <span class="geo-name">Paraná</span>
-          <div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:6.7%"></div></div>
-          <span class="geo-count">70</span>
-          <span class="geo-pct">4.5%</span>
-        </div>
-        <div class="geo-row">
-          <span class="geo-name">Distrito Federal <span class="geo-note">Brasília</span></span>
-          <div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:6.6%"></div></div>
-          <span class="geo-count">69</span>
-          <span class="geo-pct">4.4%</span>
-        </div>
-        <div class="geo-row">
-          <span class="geo-name">Rio Grande do Sul</span>
-          <div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:4.8%"></div></div>
-          <span class="geo-count">50</span>
-          <span class="geo-pct">3.2%</span>
-        </div>
-        <div class="geo-row">
-          <span class="geo-name">Bahia</span>
-          <div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:3.0%"></div></div>
-          <span class="geo-count">31</span>
-          <span class="geo-pct">2.0%</span>
-        </div>
-        <div class="geo-row">
-          <span class="geo-name">Santa Catarina</span>
-          <div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:3.0%"></div></div>
-          <span class="geo-count">31</span>
-          <span class="geo-pct">2.0%</span>
-        </div>
-        <div class="geo-row">
-          <span class="geo-name">Ceará</span>
-          <div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:2.9%"></div></div>
-          <span class="geo-count">30</span>
-          <span class="geo-pct">1.9%</span>
-        </div>
-        <div class="geo-row">
-          <span class="geo-name">Pernambuco</span>
-          <div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:2.6%"></div></div>
-          <span class="geo-count">27</span>
-          <span class="geo-pct">1.7%</span>
-        </div>
+        <div class="geo-row"><span class="geo-name">São Paulo</span><div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:100%"></div></div><span class="geo-count">1.045</span><span class="geo-pct">67.2%</span></div>
+        <div class="geo-row"><span class="geo-name">Rio de Janeiro</span><div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:10.9%"></div></div><span class="geo-count">114</span><span class="geo-pct">7.3%</span></div>
+        <div class="geo-row"><span class="geo-name">Minas Gerais</span><div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:8.5%"></div></div><span class="geo-count">89</span><span class="geo-pct">5.7%</span></div>
+        <div class="geo-row"><span class="geo-name">Paraná</span><div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:6.7%"></div></div><span class="geo-count">70</span><span class="geo-pct">4.5%</span></div>
+        <div class="geo-row"><span class="geo-name">Distrito Federal <span class="geo-note">Brasília</span></span><div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:6.6%"></div></div><span class="geo-count">69</span><span class="geo-pct">4.4%</span></div>
+        <div class="geo-row"><span class="geo-name">Rio Grande do Sul</span><div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:4.8%"></div></div><span class="geo-count">50</span><span class="geo-pct">3.2%</span></div>
+        <div class="geo-row"><span class="geo-name">Bahia</span><div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:3.0%"></div></div><span class="geo-count">31</span><span class="geo-pct">2.0%</span></div>
+        <div class="geo-row"><span class="geo-name">Santa Catarina</span><div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:3.0%"></div></div><span class="geo-count">31</span><span class="geo-pct">2.0%</span></div>
+        <div class="geo-row"><span class="geo-name">Ceará</span><div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:2.9%"></div></div><span class="geo-count">30</span><span class="geo-pct">1.9%</span></div>
+        <div class="geo-row"><span class="geo-name">Pernambuco</span><div class="geo-bar-wrap"><div class="geo-bar-fill" style="width:2.6%"></div></div><span class="geo-count">27</span><span class="geo-pct">1.7%</span></div>
       </div>
 
     </div>
-  </section>
+  </div>
 
-  <!-- ════ SECCIÓN 4: VISITANTES POR UBICACIÓN ════ -->
-  <section id="visitantes">
+  <!-- ════ PANEL 4: VISITANTES POR UBICACIÓN ════ -->
+  <div class="panel" id="visitantes">
     <div class="section-header">
       <div class="section-eyebrow">Visitantes · Distribución geográfica</div>
       <h2 class="section-title">Visitantes por país</h2>
-      <p class="section-desc">Visitantes únicos desde LinkedIn por ubicación · enero — abril 2026. Δ indica variación del último mes disponible vs. el primero del período.</p>
+      <p class="section-desc">Visitantes únicos desde LinkedIn por ubicación · enero — mayo 2026. Δ indica variación del último mes disponible vs. el primero del período.</p>
     </div>
 
     <!-- 5-month KPI strip -->
@@ -1257,7 +1130,7 @@
     <div class="chart-card full" style="margin-bottom:16px">
       <div class="chart-head">
         <div class="chart-name">Evolución mensual de visitantes</div>
-        <div class="chart-sub">Total visitantes únicos desde LinkedIn · enero — abril 2026</div>
+        <div class="chart-sub">Total visitantes únicos desde LinkedIn · enero — mayo 2026</div>
       </div>
       <div class="chart-wrap"><canvas id="chartVisitors"></canvas></div>
     </div>
@@ -1347,10 +1220,10 @@
       </div>
 
     </div>
-  </section>
+  </div>
 
-  <!-- ════ SECCIÓN 5: TOP POSTS ════ -->
-  <section id="posts">
+  <!-- ════ PANEL 5: TOP POSTS ════ -->
+  <div class="panel" id="posts">
     <div class="section-header">
       <div class="section-eyebrow">Abril 2026</div>
       <h2 class="section-title">Top 10 publicaciones</h2>
@@ -1380,30 +1253,47 @@
         <tbody id="postsBody"></tbody>
       </table>
     </div>
-  </section>
-
-</div><!-- /page -->
-
-<!-- ══ FOOTER ══ -->
-<footer class="footer">
-  <div class="footer-logo">
-    <svg viewBox="0 0 1035.25 384.98" xmlns="http://www.w3.org/2000/svg">
-      <path fill="#fff" d="M1026.58,30.96h0c-5.86-6.4-13.59-9.64-22.96-9.64s-17.03,3.28-22.58,9.74c-5.38,6.28-8.1,14.13-8.1,23.31v171.52c0,14.91-3.45,27.96-10.25,38.76-6.86,10.87-15.9,19.39-26.9,25.33-11.01,5.95-23.1,8.97-35.93,8.97-11.87,0-23.22-3-33.74-8.94-10.51-5.92-19.08-14.42-25.47-25.26-6.37-10.82-9.6-23.9-9.6-38.87V54.37c0-9.35-3.39-17.3-10.07-23.63-6.62-6.25-14.2-9.42-22.51-9.42-9.91,0-18.22,3.18-24.69,9.46-6.49,6.32-9.79,14.27-9.79,23.59v171.52c0,26.81,5.84,50.92,17.34,71.66,11.53,20.79,27.68,37.26,47.99,48.96,20.29,11.69,44.02,17.61,70.54,17.61s50.17-5.93,70.31-17.63c20.15-11.7,36.21-28.17,47.74-48.95,11.51-20.75,17.34-44.86,17.34-71.66V54.37c0-9.23-2.92-17.11-8.67-23.41"/>
-      <path fill="#fff" d="M712.33,30.7h0c-6.64-5.91-14.53-8.91-23.47-8.91-13.79,0-23.87,6.91-29.99,20.61l-83.93,215.46-91.63-215.47c-6.1-13.98-16.18-21.08-29.98-21.08-6.9,0-14.14,2.76-21.5,8.18-7.75,5.73-11.68,13.98-11.68,24.52,0,2.13.17,4.34.52,6.58.38,2.46,1.15,4.87,2.25,7.08l117.48,275.87c2.87,6.47,7.09,11.5,12.53,14.94,5.34,3.38,10.96,5.27,16.85,5.63,6.2,0,12.3-1.7,18.14-5.07,5.98-3.43,10.64-8.8,13.86-15.96l117.55-275.07c2.12-4.94,3.19-9.81,3.19-14.48,0-9.13-3.43-16.81-10.19-22.84"/>
-      <path fill="#fff" d="M253.83,333.57c-18.41,8.01-37.95,12.28-58.16,12.68-76.8,1.54-144.06-54.54-155.24-130.53C26.43,120.66,100.06,38.71,192.48,38.71c3.39,0,6.78.12,10.15.36-5.75-16.97.94-31.5,6.53-38.22.03-.04,0-.09-.03-.09-5.52-.49-11.06-.75-16.65-.75C86.35,0,0,86.36,0,192.5s86.35,192.49,192.48,192.49c27.05,0,53.19-5.5,77.73-16.33,10.4-4.61,14.75-17.24,8.94-27.38-4.99-8.71-16.12-11.7-25.32-7.7"/>
-      <path fill="#fff" d="M347.71,78.94c-18.58-25.31-42.9-45.36-70.46-58.86,0,0-.02,0-.02,0,2.09,15.46-4.29,28.31-14.14,36.02-.07.05-.05.13.02.16,20.83,10.75,39.2,26.24,53.37,45.57,6.33,8.61,18.45,10.48,27.06,4.16,8.62-6.34,10.47-18.45,4.16-27.06"/>
-      <path fill="#fff" d="M239.07,44.32c10.23,0,18.51-8.29,18.51-18.51s-8.28-18.51-18.51-18.51-18.51,8.28-18.51,18.51,8.28,18.51,18.51,18.51"/>
-      <path fill="#fff" d="M250.91,88.56l-10.45,39.21c6.49,4.8,12.31,10.57,17.18,17.19,10.22,13.92,15.62,30.43,15.62,47.76,0,32.01-18.93,61.06-48.21,73.99-10.28,4.55-21.25,6.86-32.63,6.86-44.56,0-80.82-36.27-80.82-80.85s33.39-77.86,75.47-80.62l10.34-38.77c-1.65-.08-3.31-.13-4.98-.13-65.92,0-119.53,53.61-119.53,119.52s53.61,119.55,119.53,119.55c16.79,0,33.03-3.42,48.28-10.14,43.3-19.14,71.26-62.08,71.26-109.41,0-25.62-7.99-50.06-23.12-70.65-10.22-13.92-23.23-25.27-37.93-33.51"/>
-      <path fill="#fff" d="M209.09,137.49c5.54,1.48,11.23-1.81,12.71-7.36l13.12-49.24c1.47-5.54-1.81-11.22-7.36-12.7-5.54-1.48-11.22,1.82-12.7,7.36l-13.12,49.24c-1.48,5.54,1.82,11.24,7.36,12.71"/>
-    </svg>
-    <span class="footer-text">© VU Inc. All Rights Reserved.</span>
   </div>
-  <span class="footer-text">vusecurity.com · Datos: HubSpot Social Analytics · Período: 01/04/2026 — 30/04/2026</span>
-</footer>
+
+</main>
 
 <!-- ══ SCRIPTS ══ -->
 <script>
-  // ── Data ──
+  // ── Panel switching ──
+  const charts = {};
+  const panelIds = ['dashboard', 'abril', 'audiencia', 'visitantes', 'posts'];
+
+  function showPanel(id) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.snav-item').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    const btn = document.querySelector('.snav-item[data-panel="' + id + '"]');
+    if (btn) btn.classList.add('active');
+    document.querySelector('.main').scrollTop = 0;
+    requestAnimationFrame(() => {
+      const panel = document.getElementById(id);
+      panel.querySelectorAll('canvas').forEach(canvas => {
+        if (charts[canvas.id]) { try { charts[canvas.id].resize(); } catch(e) {} }
+      });
+    });
+  }
+
+  document.querySelectorAll('.snav-item').forEach(btn => {
+    btn.addEventListener('click', () => showPanel(btn.dataset.panel));
+  });
+
+  // Keyboard navigation
+  document.addEventListener('keydown', e => {
+    if (!['ArrowLeft','ArrowRight'].includes(e.key)) return;
+    if (['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)) return;
+    const active = document.querySelector('.panel.active');
+    if (!active) return;
+    const idx = panelIds.indexOf(active.id);
+    if (e.key === 'ArrowRight' && idx < panelIds.length - 1) showPanel(panelIds[idx + 1]);
+    if (e.key === 'ArrowLeft'  && idx > 0)                   showPanel(panelIds[idx - 1]);
+  });
+
+  // ── Posts data ──
   const posts = [
     { excerpt: "¡Éxito total! La fragmentación de la identidad es un problema de negocio. Y podemos resolverlo. Ayer lanzamos VU ONE en Buenos Aires...", date: "10 abr 2026, 12:10 PM", type: "Imágenes (6)", interactions: 51, impressions: 1798, shares: 12 },
     { excerpt: "El lanzamiento de VU ONE en Argentina fue un punto de partida, y no lo decimos nosotros, sino quienes estuvieron presentes...", date: "22 abr 2026, 8:00 AM", type: "Video", interactions: 43, impressions: 1058, shares: 9 },
@@ -1419,9 +1309,9 @@
 
   posts.forEach(p => { p.engagement = p.impressions > 0 ? +(p.interactions / p.impressions * 100).toFixed(2) : 0; });
 
-  const maxI = Math.max(...posts.map(p => p.interactions));
+  const maxI   = Math.max(...posts.map(p => p.interactions));
   const maxImp = Math.max(...posts.map(p => p.impressions));
-  const maxS = Math.max(...posts.map(p => p.shares));
+  const maxS   = Math.max(...posts.map(p => p.shares));
 
   function renderTable(data) {
     document.getElementById('postsBody').innerHTML = data.map((p, i) => `
@@ -1456,32 +1346,18 @@
     renderTable([...posts].sort((a, b) => b[key] - a[key]));
   }
 
-  // ── Nav active tab on scroll ──
-  const sections = ['dashboard','abril','audiencia','visitantes','posts'];
-  const navTabs = document.querySelectorAll('.nav-tab');
-
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        navTabs.forEach(t => t.classList.remove('active'));
-        const match = document.querySelector(`.nav-tab[href="#${e.target.id}"]`);
-        if (match) match.classList.add('active');
-      }
-    });
-  }, { rootMargin: '-40% 0px -55% 0px' });
-
-  sections.forEach(id => { const el = document.getElementById(id); if (el) observer.observe(el); });
-
   // ── Chart defaults ──
   Chart.defaults.color = '#6D7378';
   Chart.defaults.font.family = "'DM Sans', Arial, sans-serif";
   Chart.defaults.font.size = 12;
-  const OG = '#F15E37', OG2 = 'rgba(241,94,55,.45)', GRID = 'rgba(255,255,255,.06)';
-  const tip = { backgroundColor: '#1C1D1E', borderColor: 'rgba(241,94,55,.3)', borderWidth: 1, padding: 10 };
+  const OG   = '#F15E37';
+  const OG2  = 'rgba(241,94,55,.45)';
+  const GRID = 'rgba(255,255,255,.06)';
+  const tip  = { backgroundColor: '#1C1D1E', borderColor: 'rgba(241,94,55,.3)', borderWidth: 1, padding: 10 };
   const labels = posts.map((_, i) => `Post ${i + 1}`);
 
-  // Chart: interactions
-  new Chart(document.getElementById('chartInteractions'), {
+  // Chart: interactions (panel: abril)
+  charts['chartInteractions'] = new Chart(document.getElementById('chartInteractions'), {
     type: 'bar',
     data: {
       labels,
@@ -1500,8 +1376,8 @@
     }
   });
 
-  // Chart: impressions
-  new Chart(document.getElementById('chartImpressions'), {
+  // Chart: impressions (panel: abril)
+  charts['chartImpressions'] = new Chart(document.getElementById('chartImpressions'), {
     type: 'bar',
     data: {
       labels,
@@ -1520,8 +1396,34 @@
     }
   });
 
-  // Chart: visitors by month
-  new Chart(document.getElementById('chartVisitors'), {
+  // Chart: engagement (panel: abril)
+  charts['chartEngagement'] = new Chart(document.getElementById('chartEngagement'), {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        { type: 'bar',  label: 'Eng. Rate %',   data: posts.map(p => p.engagement), backgroundColor: posts.map(p => p.engagement >= 3.05 ? OG : OG2), borderRadius: 4, borderSkipped: false },
+        { type: 'line', label: 'Promedio 3.05%', data: Array(posts.length).fill(3.05), borderColor: 'rgba(252,252,250,.3)', borderWidth: 1.5, borderDash: [5,4], pointRadius: 0, fill: false }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: true, labels: { color: '#D9D9D4', boxWidth: 12, font: { size: 12 }}},
+        tooltip: { ...tip, callbacks: {
+          title: items => posts[items[0].dataIndex].excerpt.slice(0, 52) + '…',
+          label: c => c.dataset.type === 'line' ? ` Promedio: ${c.parsed.y}%` : ` Eng. Rate: ${c.parsed.y}%`
+        }}
+      },
+      scales: {
+        x: { grid: { color: GRID }, ticks: { color: '#6D7378' }},
+        y: { grid: { color: GRID }, ticks: { color: '#6D7378', callback: v => v + '%' }}
+      }
+    }
+  });
+
+  // Chart: visitors by month (panel: visitantes)
+  charts['chartVisitors'] = new Chart(document.getElementById('chartVisitors'), {
     type: 'bar',
     data: {
       labels: ['Enero 2026', 'Febrero 2026', 'Marzo 2026', 'Abril 2026', 'Mayo 2026'],
@@ -1535,8 +1437,7 @@
       }]
     },
     options: {
-      responsive: true,
-      maintainAspectRatio: false,
+      responsive: true, maintainAspectRatio: false,
       plugins: {
         legend: { display: false },
         tooltip: { ...tip, callbacks: {
@@ -1554,7 +1455,7 @@
     }
   });
 
-  // Chart: geo countries
+  // Chart: geo countries (panel: audiencia)
   const geoCountries = [
     { country: 'Argentina',       count: 12813 },
     { country: 'Brasil',          count: 1556  },
@@ -1583,14 +1484,14 @@
     { country: 'Alemania',        count: 23    },
   ];
 
-  new Chart(document.getElementById('chartGeo'), {
+  charts['chartGeo'] = new Chart(document.getElementById('chartGeo'), {
     type: 'bar',
     data: {
       labels: geoCountries.map(c => c.country),
       datasets: [{
         data: geoCountries.map(c => c.count),
         backgroundColor: geoCountries.map(c => c.country === 'Argentina' ? OG : OG2),
-        borderColor: geoCountries.map(c => c.country === 'Argentina' ? OG : 'transparent'),
+        borderColor:     geoCountries.map(c => c.country === 'Argentina' ? OG : 'transparent'),
         borderWidth: 1,
         borderRadius: 4,
         borderSkipped: false
@@ -1610,32 +1511,6 @@
       scales: {
         x: { grid: { color: GRID }, ticks: { color: '#6D7378' } },
         y: { grid: { display: false }, ticks: { color: '#D9D9D4', font: { size: 12 } } }
-      }
-    }
-  });
-
-  // Chart: engagement
-  new Chart(document.getElementById('chartEngagement'), {
-    type: 'bar',
-    data: {
-      labels,
-      datasets: [
-        { type: 'bar', label: 'Eng. Rate %', data: posts.map(p => p.engagement), backgroundColor: posts.map(p => p.engagement >= 3.05 ? OG : OG2), borderRadius: 4, borderSkipped: false },
-        { type: 'line', label: 'Promedio 3.05%', data: Array(posts.length).fill(3.05), borderColor: 'rgba(252,252,250,.3)', borderWidth: 1.5, borderDash: [5,4], pointRadius: 0, fill: false }
-      ]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: {
-        legend: { display: true, labels: { color: '#D9D9D4', boxWidth: 12, font: { size: 12 }}},
-        tooltip: { ...tip, callbacks: {
-          title: items => posts[items[0].dataIndex].excerpt.slice(0, 52) + '…',
-          label: c => c.dataset.type === 'line' ? ` Promedio: ${c.parsed.y}%` : ` Eng. Rate: ${c.parsed.y}%`
-        }}
-      },
-      scales: {
-        x: { grid: { color: GRID }, ticks: { color: '#6D7378' }},
-        y: { grid: { color: GRID }, ticks: { color: '#6D7378', callback: v => v + '%' }}
       }
     }
   });
