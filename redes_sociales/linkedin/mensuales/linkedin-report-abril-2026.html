@@ -696,6 +696,44 @@
     }
 
     /* ════════════════════════════════════════
+       VISITANTES — DETAIL TABLE
+    ════════════════════════════════════════ */
+    .vis-detail-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+
+    .vis-detail-table th {
+      padding: 8px 10px;
+      text-align: right;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      color: var(--orange);
+      font-weight: 600;
+      border-bottom: 1px solid var(--orange-line);
+      white-space: nowrap;
+    }
+
+    .vis-detail-table th:first-child { text-align: left; }
+
+    .vis-detail-table td {
+      padding: 8px 10px;
+      text-align: right;
+      color: var(--gray-light);
+      border-bottom: 1px solid var(--grid);
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+
+    .vis-detail-table td:first-child {
+      text-align: left;
+      color: var(--cream);
+      font-weight: 500;
+    }
+
+    .vis-detail-table tr:last-child td { border-bottom: none; }
+    .vis-detail-table tbody tr:hover td { background: rgba(241,94,55,.03); }
+    .vis-detail-table td.dash { color: var(--gray-mid); }
+
+    /* ════════════════════════════════════════
        SCROLL TARGET OFFSET
     ════════════════════════════════════════ */
     [id] { scroll-margin-top: calc(var(--nav-h) + 12px); }
@@ -725,6 +763,7 @@
     <a class="nav-tab active" href="#dashboard">Dashboard</a>
     <a class="nav-tab" href="#abril">Abril 2026</a>
     <a class="nav-tab" href="#audiencia">Audiencia</a>
+    <a class="nav-tab" href="#visitantes">Visitantes</a>
     <a class="nav-tab" href="#posts">Posts</a>
   </div>
 </nav>
@@ -1177,7 +1216,133 @@
     </div>
   </section>
 
-  <!-- ════ SECCIÓN 4: TOP POSTS ════ -->
+  <!-- ════ SECCIÓN 4: VISITANTES POR UBICACIÓN ════ -->
+  <section id="visitantes">
+    <div class="section-header">
+      <div class="section-eyebrow">Visitantes · Distribución geográfica</div>
+      <h2 class="section-title">Visitantes por país</h2>
+      <p class="section-desc">Visitantes únicos desde LinkedIn por ubicación · enero — abril 2026. Δ indica variación del último mes disponible vs. el primero del período.</p>
+    </div>
+
+    <!-- 4-month KPI strip -->
+    <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:16px">
+      <div class="kpi-card">
+        <div class="kpi-label">Enero 2026</div>
+        <div class="kpi-value">1.024</div>
+        <div class="kpi-detail">Baseline inicial</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Febrero 2026</div>
+        <div class="kpi-value">1.760</div>
+        <div class="kpi-detail" style="color:#4ade80;font-weight:600">▲ +71.9% vs. enero</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Marzo 2026</div>
+        <div class="kpi-value">1.793</div>
+        <div class="kpi-detail" style="color:#4ade80;font-weight:600">▲ +1.9% vs. febrero</div>
+      </div>
+      <div class="kpi-card featured">
+        <div class="kpi-label">Abril 2026</div>
+        <div class="kpi-value">1.067</div>
+        <div class="kpi-detail" style="color:#f87171;font-weight:600">▼ −40.5% vs. marzo</div>
+      </div>
+    </div>
+
+    <!-- Monthly evolution chart -->
+    <div class="chart-card full" style="margin-bottom:16px">
+      <div class="chart-head">
+        <div class="chart-name">Evolución mensual de visitantes</div>
+        <div class="chart-sub">Total visitantes únicos desde LinkedIn · enero — abril 2026</div>
+      </div>
+      <div class="chart-wrap"><canvas id="chartVisitors"></canvas></div>
+    </div>
+
+    <!-- Country × month table -->
+    <div class="chart-card full" style="margin-bottom:16px">
+      <div class="chart-head">
+        <div class="chart-name">Visitantes por país — comparación mensual</div>
+        <div class="chart-sub">Ciudades y regiones de LinkedIn sumadas por país · "—" indica sin presencia ese mes</div>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="vis-detail-table">
+          <thead>
+            <tr>
+              <th>País</th>
+              <th>Enero</th>
+              <th>Febrero</th>
+              <th>Marzo</th>
+              <th>Abril</th>
+              <th>Tendencia *</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Argentina</td><td>631</td><td>1.038</td><td>756</td><td>475</td><td style="color:#f87171;font-weight:700">▼ −24.7%</td></tr>
+            <tr><td>Brasil</td><td>75</td><td>342</td><td>204</td><td>101</td><td style="color:#4ade80;font-weight:700">▲ +34.7%</td></tr>
+            <tr><td>Colombia</td><td>28</td><td>35</td><td>124</td><td>18</td><td style="color:#f87171;font-weight:700">▼ −35.7%</td></tr>
+            <tr><td>España</td><td>28</td><td>40</td><td>59</td><td>29</td><td style="color:#4ade80;font-weight:700">▲ +3.6%</td></tr>
+            <tr><td>Chile</td><td>26</td><td>23</td><td>51</td><td>54</td><td style="color:#4ade80;font-weight:700">▲ +107.7%</td></tr>
+            <tr><td>EE.UU.</td><td>9</td><td>63</td><td>30</td><td>31</td><td style="color:#4ade80;font-weight:700">▲ +244.4%</td></tr>
+            <tr><td>Uruguay</td><td>16</td><td>20</td><td>26</td><td>19</td><td style="color:#4ade80;font-weight:700">▲ +18.8%</td></tr>
+            <tr><td>Venezuela</td><td class="dash">—</td><td class="dash">—</td><td>52</td><td>23</td><td style="color:#f87171;font-weight:700">▼ −55.8% <span style="color:var(--gray-mid);font-weight:400;font-size:10px">(Mar→Abr)</span></td></tr>
+            <tr><td>Perú</td><td class="dash">—</td><td>19</td><td>25</td><td>20</td><td style="color:#4ade80;font-weight:700">▲ +5.3% <span style="color:var(--gray-mid);font-weight:400;font-size:10px">(Feb→Abr)</span></td></tr>
+            <tr><td>India</td><td>26</td><td class="dash">—</td><td class="dash">—</td><td>26</td><td style="color:var(--gray-mid);font-weight:700">→ 0%</td></tr>
+            <tr><td>Ecuador</td><td>16</td><td class="dash">—</td><td>10</td><td>14</td><td style="color:#f87171;font-weight:700">▼ −12.5%</td></tr>
+            <tr><td>Reino Unido</td><td>17</td><td>8</td><td>16</td><td class="dash">—</td><td style="color:#f87171;font-weight:700">▼ −5.9% <span style="color:var(--gray-mid);font-weight:400;font-size:10px">(Ene→Mar)</span></td></tr>
+            <tr><td>México</td><td class="dash">—</td><td>11</td><td>22</td><td class="dash">—</td><td style="color:#4ade80;font-weight:700">▲ +100% <span style="color:var(--gray-mid);font-weight:400;font-size:10px">(Feb→Mar)</span></td></tr>
+            <tr><td>Rep. Dominicana</td><td class="dash">—</td><td>9</td><td>9</td><td class="dash">—</td><td style="color:var(--gray-mid);font-weight:700">→ 0% <span style="color:var(--gray-mid);font-weight:400;font-size:10px">(Feb→Mar)</span></td></tr>
+            <tr><td>Bélgica</td><td class="dash">—</td><td class="dash">—</td><td>11</td><td class="dash">—</td><td style="color:var(--gray-mid);font-weight:400;font-size:11px">Solo marzo</td></tr>
+            <tr><td>Indonesia</td><td class="dash">—</td><td class="dash">—</td><td>11</td><td class="dash">—</td><td style="color:var(--gray-mid);font-weight:400;font-size:11px">Solo marzo</td></tr>
+            <tr><td>Costa Rica</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td><td>10</td><td style="color:var(--gray-mid);font-weight:400;font-size:11px">Solo abril</td></tr>
+            <tr><td>Alemania</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td><td>10</td><td style="color:var(--gray-mid);font-weight:400;font-size:11px">Solo abril</td></tr>
+            <tr style="opacity:.75"><td>Others (sin región asignada)</td><td>152</td><td>152</td><td>387</td><td>237</td><td style="color:#4ade80;font-weight:700">▲ +55.9%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:11px;color:var(--gray-mid);margin-top:14px;line-height:1.6">* Tendencia: variación del último mes disponible vs. el primero del período. No refleja evolución mensual consistente cuando hay meses sin datos.</p>
+    </div>
+
+    <!-- Argentina + Brazil detail by month -->
+    <div class="geo-grid">
+
+      <div class="geo-card">
+        <div class="geo-card-title">Argentina — por provincia × mes</div>
+        <div class="geo-card-sub">Buenos Aires incluye CABA y GBA · Δ: último mes disponible vs. primero</div>
+        <table class="vis-detail-table">
+          <thead>
+            <tr><th>Provincia</th><th>Ene</th><th>Feb</th><th>Mar</th><th>Abr</th><th>Δ</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Buenos Aires</td><td>505</td><td>809</td><td>619</td><td>407</td><td style="color:#f87171;font-weight:700">▼ −19.4%</td></tr>
+            <tr><td>Córdoba</td><td>63</td><td>124</td><td>88</td><td>28</td><td style="color:#f87171;font-weight:700">▼ −55.6%</td></tr>
+            <tr><td>Santa Fe</td><td>29</td><td>61</td><td>17</td><td>15</td><td style="color:#f87171;font-weight:700">▼ −48.3%</td></tr>
+            <tr><td>Mendoza</td><td class="dash">—</td><td>25</td><td>23</td><td>25</td><td style="color:var(--gray-mid);font-weight:700">→ 0% <span style="font-weight:400;font-size:10px">(Feb→Abr)</span></td></tr>
+            <tr><td>Salta</td><td class="dash">—</td><td>19</td><td class="dash">—</td><td class="dash">—</td><td style="color:var(--gray-mid);font-weight:400;font-size:11px">Solo feb</td></tr>
+            <tr><td>Entre Ríos</td><td>24</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td><td style="color:var(--gray-mid);font-weight:400;font-size:11px">Solo ene</td></tr>
+            <tr><td>Chubut</td><td>10</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td><td style="color:var(--gray-mid);font-weight:400;font-size:11px">Solo ene</td></tr>
+            <tr><td>Río Negro</td><td class="dash">—</td><td class="dash">—</td><td>9</td><td class="dash">—</td><td style="color:var(--gray-mid);font-weight:400;font-size:11px">Solo mar</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="geo-card">
+        <div class="geo-card-title">Brasil — por estado × mes</div>
+        <div class="geo-card-sub">Campinas y Santo André consolidados en São Paulo · Brasília en Distrito Federal</div>
+        <table class="vis-detail-table">
+          <thead>
+            <tr><th>Estado</th><th>Ene</th><th>Feb</th><th>Mar</th><th>Abr</th><th>Δ</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>São Paulo</td><td>64</td><td>333</td><td>191</td><td>89</td><td style="color:#4ade80;font-weight:700">▲ +39.1%</td></tr>
+            <tr><td>Rio Grande do Sul</td><td>11</td><td>9</td><td class="dash">—</td><td class="dash">—</td><td style="color:#f87171;font-weight:700">▼ −18.2% <span style="font-weight:400;font-size:10px">(Ene→Feb)</span></td></tr>
+            <tr><td>Distrito Federal</td><td class="dash">—</td><td class="dash">—</td><td>13</td><td>12</td><td style="color:#f87171;font-weight:700">▼ −7.7% <span style="font-weight:400;font-size:10px">(Mar→Abr)</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════ SECCIÓN 5: TOP POSTS ════ -->
   <section id="posts">
     <div class="section-header">
       <div class="section-eyebrow">Abril 2026</div>
@@ -1285,7 +1450,7 @@
   }
 
   // ── Nav active tab on scroll ──
-  const sections = ['dashboard','abril','audiencia','posts'];
+  const sections = ['dashboard','abril','audiencia','visitantes','posts'];
   const navTabs = document.querySelectorAll('.nav-tab');
 
   const observer = new IntersectionObserver(entries => {
@@ -1344,6 +1509,40 @@
       scales: {
         x: { grid: { color: GRID }, ticks: { color: '#6D7378' }},
         y: { grid: { display: false }, ticks: { color: '#D9D9D4' }}
+      }
+    }
+  });
+
+  // Chart: visitors by month
+  new Chart(document.getElementById('chartVisitors'), {
+    type: 'bar',
+    data: {
+      labels: ['Enero 2026', 'Febrero 2026', 'Marzo 2026', 'Abril 2026'],
+      datasets: [{
+        data: [1024, 1760, 1793, 1067],
+        backgroundColor: [OG2, OG, OG, OG2],
+        borderColor: [OG, OG, OG, OG],
+        borderWidth: 1,
+        borderRadius: 6,
+        borderSkipped: false
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { ...tip, callbacks: {
+          label: c => ` ${c.parsed.y.toLocaleString('es')} visitantes`,
+          afterLabel: c => {
+            const deltas = [null, '+71.9% vs. enero', '+1.9% vs. febrero', '−40.5% vs. marzo'];
+            return deltas[c.dataIndex] ? ` ${deltas[c.dataIndex]}` : '';
+          }
+        }}
+      },
+      scales: {
+        x: { grid: { color: GRID }, ticks: { color: '#D9D9D4' } },
+        y: { grid: { color: GRID }, ticks: { color: '#6D7378', callback: v => v.toLocaleString('es') } }
       }
     }
   });
